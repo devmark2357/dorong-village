@@ -497,7 +497,7 @@ body:not(.dev) #opt .odev{display:none!important}
 @keyframes mpop{50%{transform:scale(1.18)}}
 #mkt .ksheet{position:absolute;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);max-width:420px;margin:0 auto;background:url(assets/ui2/panel.webp) center/100% 100% no-repeat;padding:38px 22px 22px;z-index:4;box-sizing:border-box;max-height:calc(var(--VH,100vh)*0.72);display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
 #mkt .ktt{position:absolute;left:50%;top:-34px;transform:translateX(-50%);height:66px;pointer-events:none}
-#mkt .kwk{display:flex;align-items:center;gap:5px;margin-bottom:6px;min-height:52px}
+#mkt .kwk{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px 5px;margin-bottom:6px;min-height:52px;min-width:0}#mkt .ksheet{overflow-x:hidden}#mkt .kc{max-width:100%}
 #mkt .kl{font-family:var(--hand);font-size:13px;color:var(--gt);flex:none}
 #mkt .kc{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:50px;min-width:50px;border:0;background:url(assets/ui2/slot.webp) center/100% 100% no-repeat;padding:4px 14px 4px 4px;cursor:pointer;font-family:var(--hand);color:var(--gt);font-size:13px}
 #mkt .kc canvas{width:40px;height:40px}#mkt .kc span{display:grid;line-height:1.1;text-align:left}#mkt .kc small{font-family:"Gowun Dodum",sans-serif;font-size:9.5px;color:var(--gs)}
@@ -678,7 +678,7 @@ p,small{text-wrap:pretty}
 #kit .kbody{justify-content:flex-start!important;max-height:calc(var(--VH,100vh)*0.38)!important;padding:2px 0 4px;-webkit-overflow-scrolling:touch}
 #kit .kbody>.krun,#kit .kbody>.kfin{margin:auto 0}
 #kit .ksheet{min-height:0!important}
-#kit .kwk{flex-wrap:nowrap}
+#kit .kwk{flex-wrap:wrap;flex:none;row-gap:6px;min-width:0}#kit .kc{max-width:100%}
 /* bag */
 .cgrid{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:5px!important}
 #craft .cgrid .cell{padding:5px 0 4px!important;border-radius:12px!important}
@@ -1213,7 +1213,7 @@ var bubAt=null;function say(t,d){bubAt=null;bubble.textContent=t;bubble.classLis
 var AC=null,BUF={},sndOn=false,amb={},lastSfx={},SFX=['kyu','rustle','steps','berry','splash','drop','chime','twinkle','land','door','lift','snore','pling','tap','cry','dayamb','nightamb','brook','fire'];
 var VOL={kyu:.8,rustle:.55,steps:.025,berry:.7,splash:.6,drop:.6,chime:.55,twinkle:.5,land:.75,door:.6,lift:.75,snore:.12,pling:.6,tap:.5,dayamb:.42,nightamb:.42,brook:.5,fire:.45};
 function initAudio(){if(AC)return;var C=window.AudioContext||window.webkitAudioContext;if(!C)return;AC=new C();AC.master=AC.createGain();AC.master.connect(AC.destination);
-  SFX.forEach(function(n){fetch('assets/sfx/'+n+'.mp3?v=2').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(function(a){return new Promise(function(res,rej){AC.decodeAudioData(a,res,rej);});}).then(function(b){BUF[n]=b;if(n==='dayamb'||n==='nightamb'||n==='brook'||n==='fire')startAmb(n);}).catch(function(){});});}
+  SFX.forEach(function(n){fetch('assets/sfx/'+n+'.mp3?v=3').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(function(a){return new Promise(function(res,rej){AC.decodeAudioData(a,res,rej);});}).then(function(b){BUF[n]=b;if(n==='dayamb'||n==='nightamb'||n==='brook'||n==='fire')startAmb(n);}).catch(function(){});});}
 function sfx(n,gap){if(!sndOn||!AC||!BUF[n])return;var now=AC.currentTime;if(gap&&lastSfx[n]&&now-lastSfx[n]<gap)return;lastSfx[n]=now;var s=AC.createBufferSource(),g=AC.createGain();s.buffer=BUF[n];s.playbackRate.value=0.94+Math.random()*0.12;g.gain.value=VOL[n]||.6;s.connect(g);g.connect(AC.master);s.start();}
 function startAmb(n){if(amb[n])return;var s=AC.createBufferSource(),g=AC.createGain();s.buffer=BUF[n];s.loop=true;g.gain.value=0;s.connect(g);g.connect(AC.master);s.start();amb[n]=g;}
 function setSnd(on){sndOn=on;initAudio();if(AC&&AC.state==='suspended')AC.resume();if(AC)AC.master.gain.setTargetAtTime(on?1:0,AC.currentTime,0.15);var b=document.getElementById('bSnd');b.setAttribute('aria-pressed',on?'true':'false');b.setAttribute('aria-label',on?__T('소리 끄기'):__T('소리 켜기'));try{localStorage.setItem('sal_snd',on?'1':'0');}catch(_){}if(typeof renderMP==='function'&&npEl)renderMP();}
