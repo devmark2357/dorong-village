@@ -131,9 +131,12 @@ def build(raw, out):
     idle0 = P['idle'][0]; H0 = idle0.height
     # face/size check: every clip's median head width (after its scale) should match idle within 15%
     ref_head = headw(idle0)
+    # expected ratio and tolerance per motion (fishing rods and baskets widen the measured head band a little)
+    WANT = {'idle': (1.0, .08), 'walk': (1.0, .09), 'sleep': (1.0, .09), 'work': (1.02, .07), 'fish': (1.15, .09)}
     for c, ps in P.items():
-        hw = np.median([headw(p) for p in ps]) * SC[c] / max(1, ref_head) if c not in ('sleep',) else 1
-        if abs(hw - 1) > .15 and c in ('idle', 'walk'):
+        hw = np.median([headw(p) for p in ps]) * SC[c] / max(1, ref_head)
+        qa.setdefault('head', {})[c] = round(float(hw), 3)
+        if abs(hw - WANT[c][0]) > WANT[c][1] and c != 'idle':
             qa['notes'].append(f'{c}: head width ratio {hw:.2f}')
             qa['redo'] += list(KEYS[c])
     C = 1400; BX, BY = C // 2, 1250
