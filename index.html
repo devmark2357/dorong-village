@@ -419,6 +419,7 @@ body.kreveal #tut{opacity:0!important}
 #tut{pointer-events:auto!important;bottom:calc(env(safe-area-inset-bottom,0px) + 206px)!important}
 #tut.up{bottom:auto!important}
 #tut.hid{opacity:0!important;pointer-events:none!important}
+#tut:not(.on){pointer-events:none!important}
 body:not(.dev) #opt .odev{display:none!important}
 /* comic */
 #comic{position:fixed;inset:0;z-index:31;background:rgba(70,48,44,.5);display:none;align-items:center;justify-content:center;padding:16px;cursor:pointer}
@@ -1170,7 +1171,7 @@ var bubAt=null;function say(t,d){bubAt=null;bubble.textContent=t;bubble.classLis
 var AC=null,BUF={},sndOn=false,amb={},lastSfx={},SFX=['kyu','rustle','steps','berry','splash','drop','chime','twinkle','land','door','lift','snore','pling','tap','cry','dayamb','nightamb'];
 var VOL={kyu:.8,rustle:.55,steps:.025,berry:.7,splash:.6,drop:.6,chime:.55,twinkle:.5,land:.75,door:.6,lift:.75,snore:.12,pling:.6,tap:.5,dayamb:.42,nightamb:.42};
 function initAudio(){if(AC)return;var C=window.AudioContext||window.webkitAudioContext;if(!C)return;AC=new C();AC.master=AC.createGain();AC.master.connect(AC.destination);
-  SFX.forEach(function(n){fetch('assets/sfx/'+n+'.mp3').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(function(a){return new Promise(function(res,rej){AC.decodeAudioData(a,res,rej);});}).then(function(b){BUF[n]=b;if(n==='dayamb'||n==='nightamb')startAmb(n);}).catch(function(){});});}
+  SFX.forEach(function(n){fetch('assets/sfx/'+n+'.mp3?v=2').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(function(a){return new Promise(function(res,rej){AC.decodeAudioData(a,res,rej);});}).then(function(b){BUF[n]=b;if(n==='dayamb'||n==='nightamb')startAmb(n);}).catch(function(){});});}
 function sfx(n,gap){if(!sndOn||!AC||!BUF[n])return;var now=AC.currentTime;if(gap&&lastSfx[n]&&now-lastSfx[n]<gap)return;lastSfx[n]=now;var s=AC.createBufferSource(),g=AC.createGain();s.buffer=BUF[n];s.playbackRate.value=0.94+Math.random()*0.12;g.gain.value=VOL[n]||.6;s.connect(g);g.connect(AC.master);s.start();}
 function startAmb(n){if(amb[n])return;var s=AC.createBufferSource(),g=AC.createGain();s.buffer=BUF[n];s.loop=true;g.gain.value=0;s.connect(g);g.connect(AC.master);s.start();amb[n]=g;}
 function setSnd(on){sndOn=on;initAudio();if(AC&&AC.state==='suspended')AC.resume();if(AC)AC.master.gain.setTargetAtTime(on?1:0,AC.currentTime,0.15);var b=document.getElementById('bSnd');b.setAttribute('aria-pressed',on?'true':'false');b.setAttribute('aria-label',on?__T('소리 끄기'):__T('소리 켜기'));try{localStorage.setItem('sal_snd',on?'1':'0');}catch(_){}if(typeof renderMP==='function'&&npEl)renderMP();}
@@ -1364,7 +1365,7 @@ var RIPE=[[125.22,521.71,47.09],[169.31,495.98,43.72],[43.27,488.11,44.84],[85.2
 function drawRipe(t){if(!RPI.complete||!RPI.naturalWidth)return;var full=Math.floor(G.patch/5),fr=(G.patch%5)/5;for(var i=0;i<RIPE.length;i++){var p=RIPE[i],w=p[2];if(i<full){var k=1+0.07*Math.sin(t*2.6+i*1.7);ctx.drawImage(RPI,i*192,0,192,192,p[0]-w*k/2,p[1]-w*k/2,w*k,w*k);}else if(season()===3&&!G.gh){}else{ctx.drawImage(RPI,i*192,192,192,192,p[0]-w/2,p[1]-w/2,w,w);if(i===full&&fr>0){ctx.globalAlpha=fr;ctx.drawImage(RPI,i*192,0,192,192,p[0]-w/2,p[1]-w/2,w,w);ctx.globalAlpha=1;}}}}
 function drawSigns(t){drawRipe(t);if(!SGI.complete||!SGI.naturalWidth)return;SIGNS.forEach(function(g,i){var w=g[3],h=w*260/220;ctx.save();ctx.translate(g[1],g[2]);ctx.rotate(Math.sin(t*1.4+i*2)*0.035);var p=1+Math.max(0,Math.sin(t*1.1+i*2.1)-0.9)*1.2;ctx.scale(p,p);ctx.drawImage(SGI,g[0]*220,0,220,260,-w/2,-h,w,h);ctx.restore();});}
 // autumn: acorns and chestnuts drop on the meadow; tap to pick them up (a new one every 90 s, up to three)
-var NUTS=[[118,760],[262,884],[642,990],[84,1056],[606,700],[330,1176],[520,1120]],ITI=new Image();ITI.src='assets/items.webp?v=6';
+var NUTS=[[118,760],[262,884],[642,990],[200,980],[606,700],[470,800],[540,920]],ITI=new Image();ITI.src='assets/items.webp?v=6';
 function nutOn(){var f=festNow();return season()===2||(f&&f.id==='harvest');}
 function nutTick(){if(!nutOn()){G.nuts=null;return;}var dk=dayN();if(!G.nuts||G.nuts.d!==dk)G.nuts={d:dk,on:[],t:0};var N=G.nuts;
   if(N.on.length<3&&Date.now()>N.t){var free=NUTS.map(function(_,i){return i;}).filter(function(i){return N.on.every(function(o){return o[0]!==i;});});N.on.push([free[Math.floor(Math.random()*free.length)],Math.random()<.65?'acorn':'chestnut']);N.t=Date.now()+(season()===2&&festNow()&&festNow().id==='harvest'?45000:90000)/tSpd();}}
@@ -1666,9 +1667,9 @@ function icDraw(ic,x,y,w,a){if(!ITI.naturalWidth||w<1)return;var cw=ITI.naturalW
 function sparkAt(x,y,n){for(var k=0;k<(n||6);k++)fx2.pops.push({k:'spark',x:x,y:y,vx:R(-60,60),vy:R(-150,-80),t:0,w:16});}
 function glowAt(x,y,r,c){var g=ctx.createRadialGradient(x,y,1,x,y,r);g.addColorStop(0,c);g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();}
 // forest: a mushroom pops up now and then; tap it before it hides again
-var FOR={on:[],t:6},FORP=[[.35,.1],[.7,.22],[.3,.36],[.72,.5],[.32,.66],[.68,.8],[.4,.94]];
+var FOR={on:[],t:6},FORP=[[.35,.1],[.7,.22],[.3,.36],[.72,.48],[.32,.6],[.66,.7],[.5,.3],[.55,.55]];
 function forTick(dt){if(!zOpen(3)||GUEST){FOR.on=[];return;}FOR.on.forEach(function(o){o.a+=dt;});FOR.on=FOR.on.filter(function(o){return o.a<o.life;});
-  if((FOR.t-=dt*Math.min(10,tSpd()))<=0&&FOR.on.length<2){FOR.t=R(18,40);var used={},c=[];FOR.on.forEach(function(o){used[o.p]=1;});FORP.forEach(function(_,i){if(!used[i])c.push(i);});FOR.on.push({p:c[Math.floor(Math.random()*c.length)],a:0,life:10,g:Math.random()<.18});sfx('pling',0.12);}}
+  if((FOR.t-=dt*Math.min(10,tSpd()))<=0&&FOR.on.length<4){FOR.t=R(8,16);var used={},c=[];FOR.on.forEach(function(o){used[o.p]=1;});FORP.forEach(function(_,i){if(!used[i])c.push(i);});FOR.on.push({p:c[Math.floor(Math.random()*c.length)],a:0,life:45,g:Math.random()<.18});sfx('pling',0.12);}}
 function forPos(o){return zpt(3,FORP[o.p][0],FORP[o.p][1]);}
 function drawForest(t){FOR.on.forEach(function(o){var p=forPos(o),s=Math.min(1,o.a/.25)*(o.a>o.life-.6?Math.max(0,(o.life-o.a)/.6):1),pop=o.a<.4?1+.25*Math.sin(o.a/.4*Math.PI):1,w=50*s*pop;if(o.g)glowAt(p[0],p[1]-w*.5,w*.9,'rgba(170,220,255,.55)');icDraw(o.g?48:RAWM.shroom.ic,p[0],p[1]+(1-s)*20,w);});}
 function forTap(x,y){for(var k=0;k<FOR.on.length;k++){var o=FOR.on[k],p=forPos(o);if(Math.abs(x-p[0])<38&&y>p[1]-60&&y<p[1]+16){FOR.on.splice(k,1);var id=o.g?'glowshroom':'shroom',n=o.g?1:2;matGive(id,n);sfx('berry',0.3);addLabel(RAWM[id].n+' +'+n,p[0],p[1]-54);sparkAt(p[0],p[1]-24);save();return true;}}return false;}
