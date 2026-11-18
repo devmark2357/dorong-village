@@ -2565,9 +2565,10 @@ function dqDay(){var dn=dayN();if(!G.dq||G.dq.d!==dn)G.dq={d:dn,berry:0,cook:0,s
 function dqAdd(k){if((G.tut||0)<11)return;var Q=dqDay();Q[k]=(Q[k]||0)+1;}
 function dqDone(){var Q=dqDay();return DQ.every(function(t){return (Q[t[0]]||0)>=t[2];});}
 // ads: rewarded only when the player asks; one gentle break when leaving the market after selling, never for subscribers
-var AD={rwMax:5,rwHoney:15,ivGap:1200000,ivDay:3,ivGrace:600000,ivNewDays:14,t0:Date.now(),ready:false};
+var AD={rwMax:5,rwHoney:15,ivGap:300000,ivSess:3,ivDay:10,ivGrace:180000,ivNewDays:14,t0:Date.now(),sn:0,hid:0,ready:false};
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')AD.hid=Date.now();else if(AD.hid&&Date.now()-AD.hid>1800000){AD.t0=Date.now();AD.sn=0;}});
 function adDay(){var dn=dayN();if(!G.ad||G.ad.d!==dn)G.ad={d:dn,rw:0,iv:0,last:0};return G.ad;}
-function adInterstitial(where){var A=adDay();if(!AD.ready||G.sub||G.noad||(G.tut||0)<11)return false;if((G.born&&Date.now()-G.born<AD.ivNewDays*86400000)||Date.now()-AD.t0<AD.ivGrace||A.iv>=AD.ivDay||Date.now()-A.last<AD.ivGap)return false;A.iv++;A.last=Date.now();save();return true;}
+function adInterstitial(where){var A=adDay();if(!AD.ready||G.sub||G.noad||(G.tut||0)<11)return false;if((G.born&&Date.now()-G.born<AD.ivNewDays*86400000)||Date.now()-AD.t0<AD.ivGrace||AD.sn>=AD.ivSess||A.iv>=AD.ivDay||Date.now()-A.last<AD.ivGap)return false;A.iv++;AD.sn++;A.last=Date.now();save();return true;}
 function snailFind(){var Sn=fx2.crit.snail;follow=false;foc=null;goLevel(2,Sn.x+OX,Sn.y+OY-40);setTimeout(function(){addLabel(__T('여기 달팽이를 톡!'),Sn.x,Sn.y-46);heartsAt(Sn.x,Sn.y-30,2);},700);}
 function shopHoney(){var h=HWAYS.map(function(w){var S=hwState(w),lk=!!S.off;return '<div class="hw'+(lk?' lk':'')+'"><div><b>'+S.t+'</b><small>'+S.d+(lk?'<em>'+S.off+'</em>':'')+'</small></div><button type="button" data-w="'+w+'">'+(lk?__T('기다려요'):S.b)+'</button></div>';}).join('');
   h+=__T('<h4>꿀방울 꾸러미</h4><div class="hgrid">')+HPK.map(function(p,i){return '<button type="button" class="hp" disabled>'+(p[2]?'<em>'+p[2]+'</em>':'')+'<i style="background-position:'+(Math.min(i,3)*100/3)+__T('% 0"></i><b>꿀방울 ')+p[0].toLocaleString()+'</b><small>'+p[1]+'</small></button>';}).join('')+__T('</div><p class="hnote">결제는 앱 출시 버전에서 열려요</p>');
