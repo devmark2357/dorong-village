@@ -1077,7 +1077,7 @@ function feed(){if(berries<MEAL_COST){say(__T('딸기가 모자라요…'),2.5);
 function fillFeeder(){sfx('tap');if(G.feeder>=FEED_CAP){addLabel(__T('먹이통이 가득 찼어요'),IW/2,300);return;}if(berries<MEAL_COST){addLabel(__T('딸기가 모자라요 (한 끼 = ')+MEAL_COST+__T('개)'),IW/2,300);return;}addBerry(-MEAL_COST);G.feeder++;sfx('berry');setGrow();save();}
 function onHungry(){if(sal.state==='held'||sal.state==='fall'||sal.state==='land')return;say(__T('배고파…'),2.5);voiceE(curI(),3);if(sal.node==='door'&&sal.state!=='walk')startCry();else goTo('door');}
 // ---------- time: hunger, feeder, strawberry patch (same rules live and while away) ----------
-function stepTime(ms,live){var r={meals:0,patch:0,rb:0,rf:0,up:[]};if(!live&&G.res&&G.res.length){var mins=ms/60000;G.res.forEach(function(d){var k=d.fac?Math.floor(mins*(d.st===2?.8:.4)*.5):0;if(d.fac==='berry')r.rb+=Math.floor(k*berryRate());else if(d.fac==='pond')r.rf+=k;else if(d.fac==='stall'){r.sold=(r.sold||0)+mktOffline(mins);}d.xp=(d.xp||0)+Math.floor(mins/4);if(d.st===1&&d.xp>=ADULT_XP&&affOf(d.i)>=AFF_ADULT){d.st=2;r.up.push(ROSTER[d.i].name);}});var lf0=storeLeft();r.rb=Math.min(r.rb,lf0);r.rf=Math.min(r.rf,lf0-r.rb);if(r.rb)addBerry(r.rb);G.fish=(G.fish||0)+r.rf;if(lf0<=r.rb+r.rf)r.full=1;}
+function stepTime(ms,live){var r={meals:0,patch:0,rb:0,rf:0,up:[]};if(!live&&G.res&&G.res.length){var mins=ms/60000;G.res.forEach(function(d){var k=d.fac?Math.floor(mins*(d.st===2?.8:.4)*.3):0;if(d.fac==='berry')r.rb+=Math.floor(k*berryRate());else if(d.fac==='pond')r.rf+=k;else if(d.fac==='stall'){r.sold=(r.sold||0)+mktOffline(mins);}d.xp=(d.xp||0)+Math.floor(mins/4);if(d.st===1&&d.xp>=ADULT_XP&&affOf(d.i)>=AFF_ADULT){d.st=2;r.up.push(ROSTER[d.i].name);}});var lf0=storeLeft();r.rb=Math.min(r.rb,lf0);r.rf=Math.min(r.rf,lf0-r.rb);if(r.rb)addBerry(r.rb);G.fish=(G.fish||0)+r.rf;if(lf0<=r.rb+r.rf)r.full=1;}
   if(!live&&G.cook&&!G.cook.done){var RC=recOf(G.cook.id);if(RC){G.cook.p=Math.min(1,G.cook.p+ms/1000*(1+.5*(G.res||[]).filter(function(d){return d.fac==='stove';}).length)/RC.t);if(G.cook.p>=1){G.cook.done=true;r.cook=RC.n;}}}
   G.patchMs+=ms*berryRate();var add=Math.floor(G.patchMs/PATCH_MS);G.patchMs-=add*PATCH_MS;var before=G.patch;G.patch=Math.min(PATCH_CAP,G.patch+add);r.patch=G.patch-before;if(G.patch>=PATCH_CAP)G.patchMs=0;
   pace();while(ms>0&&!hungry){var need=MEAL_MS-G.hungerMs;if(ms<need){G.hungerMs+=ms;break;}ms-=need;G.hungerMs=0;
@@ -1838,7 +1838,7 @@ function resArrive(r){if(r.job==='deco'){useStart(r);return;}if(!r.job){r.at=nea
   var p=RSPOT[r.job][r.spot];r.face=p[2];r.at=p[3];if(FAC[r.job]&&FAC[r.job].inside){if(!r.inside)sfx('door',0.25);r.inside=true;}
   if(r.job==='rest'){var sl=night>0.6||Math.random()<.5;r.state=sl?'sleep':'idle';r.t=sl?R(12,20):R(5,9);setRC(r,sl?'sleep':'idle');return;}
   if(r.d.aw==null)newAwake(r.d);if(r.d.zz>0){r.state='sleep';r.t=1e9;setRC(r,'sleep');return;}
-  r.state='work';r.t=R(13,19);setRC(r,FAC[r.job].clip);}
+  r.state='work';r.t=R(22,32);setRC(r,FAC[r.job].clip);}
 function resDone(r){if(r.state==='work'&&FAC[r.job]){var F=FAC[r.job];r.d.xp=(r.d.xp||0)+1;
     if(F.out){var n=r.d.st===2?2:1,b=r.job==='berry';if(!b&&season()===1&&Math.random()<.5)n++;if(b&&berryRate()<1&&Math.random()>=berryRate()){n=0;if(view.w<900||foc===r)addLabel(G.gh?__T('눈 속 딸기를 찾는 중…'):__T('눈에 덮여 딸기가 없어요'),r.x,r.y-rh(r)-10);}
       if(n){var lf=storeLeft();if(lf<n){n=lf;if(!n)storeFull(r.x,r.y-rh(r)-10);}}
@@ -2565,9 +2565,9 @@ function dqDay(){var dn=dayN();if(!G.dq||G.dq.d!==dn)G.dq={d:dn,berry:0,cook:0,s
 function dqAdd(k){if((G.tut||0)<11)return;var Q=dqDay();Q[k]=(Q[k]||0)+1;}
 function dqDone(){var Q=dqDay();return DQ.every(function(t){return (Q[t[0]]||0)>=t[2];});}
 // ads: rewarded only when the player asks; one gentle break when leaving the market after selling, never for subscribers
-var AD={rwMax:5,rwHoney:15,ivGap:600000,ivDay:4,ivGrace:600000,t0:Date.now(),ready:false};
+var AD={rwMax:5,rwHoney:15,ivGap:1200000,ivDay:3,ivGrace:600000,ivNewDays:14,t0:Date.now(),ready:false};
 function adDay(){var dn=dayN();if(!G.ad||G.ad.d!==dn)G.ad={d:dn,rw:0,iv:0,last:0};return G.ad;}
-function adInterstitial(where){var A=adDay();if(!AD.ready||G.sub||G.noad||(G.tut||0)<11)return false;if(Date.now()-AD.t0<AD.ivGrace||A.iv>=AD.ivDay||Date.now()-A.last<AD.ivGap)return false;A.iv++;A.last=Date.now();save();return true;}
+function adInterstitial(where){var A=adDay();if(!AD.ready||G.sub||G.noad||(G.tut||0)<11)return false;if((G.born&&Date.now()-G.born<AD.ivNewDays*86400000)||Date.now()-AD.t0<AD.ivGrace||A.iv>=AD.ivDay||Date.now()-A.last<AD.ivGap)return false;A.iv++;A.last=Date.now();save();return true;}
 function snailFind(){var Sn=fx2.crit.snail;follow=false;foc=null;goLevel(2,Sn.x+OX,Sn.y+OY-40);setTimeout(function(){addLabel(__T('여기 달팽이를 톡!'),Sn.x,Sn.y-46);heartsAt(Sn.x,Sn.y-30,2);},700);}
 function shopHoney(){var h=HWAYS.map(function(w){var S=hwState(w),lk=!!S.off;return '<div class="hw'+(lk?' lk':'')+'"><div><b>'+S.t+'</b><small>'+S.d+(lk?'<em>'+S.off+'</em>':'')+'</small></div><button type="button" data-w="'+w+'">'+(lk?__T('기다려요'):S.b)+'</button></div>';}).join('');
   h+=__T('<h4>꿀방울 꾸러미</h4><div class="hgrid">')+HPK.map(function(p,i){return '<button type="button" class="hp" disabled>'+(p[2]?'<em>'+p[2]+'</em>':'')+'<i style="background-position:'+(Math.min(i,3)*100/3)+__T('% 0"></i><b>꿀방울 ')+p[0].toLocaleString()+'</b><small>'+p[1]+'</small></button>';}).join('')+__T('</div><p class="hnote">결제는 앱 출시 버전에서 열려요</p>');
