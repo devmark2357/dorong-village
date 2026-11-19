@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795049547";</script></head><body>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795054521";</script></head><body>
 <meta charset="utf-8">
 <title>도롱도롱 느림마을</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -47,7 +47,7 @@ body{margin:0;background:#f7e6ec;color:var(--ink);font-family:var(--body);overfl
 @keyframes eq{0%,100%{height:3px}50%{height:12px}}
 .paused .eq i{animation:none;height:3px}
 #mp{position:fixed;z-index:20;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);transform:translate(-50%,12px);width:min(360px,calc(var(--VW,100vw) - 32px));background:rgba(255,253,250,.94);border:1px solid #fff;border-radius:22px;box-shadow:0 12px 40px rgba(90,60,110,.28);padding:14px 10px 10px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-#mp.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+#mp.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}#mp{box-sizing:border-box;display:flex;flex-direction:column;max-height:calc(var(--VH,100vh) - env(safe-area-inset-bottom,0px) - env(safe-area-inset-top,0px) - 140px)}#mpList{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 #mp h2{font-family:var(--hand);font-weight:400;font-size:22px;margin:0 8px 2px}
 #mp .sub{font-size:12px;opacity:.7;margin:0 8px 8px}
 #mp button.tr{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;width:100%;font:inherit;color:var(--ink);text-align:left;background:transparent;border:0;border-radius:14px;padding:8px;cursor:pointer}
@@ -330,11 +330,11 @@ body.intro .tl,body.intro .tr2{opacity:0;pointer-events:none}.tl,.tr2{transition
 #kit .kjam{width:calc(272px*var(--u));left:calc(-136px*var(--u));top:calc(-258px*var(--u));opacity:0;transition:opacity .5s}
 #kit.cook .kjam{opacity:1}
 #kit.tool .kpot{opacity:0}#kit.tool .kjam{top:auto;bottom:calc(-9px*var(--u));width:calc(266px*var(--u));left:calc(-133px*var(--u))}#kit.tool.cook .kjam{opacity:1}#kit.nospoon .klad{display:none}#kit.cold .kstm{display:none}
-#kit .kstm{width:calc(150px*var(--u));left:calc(-80px*var(--u));top:calc(-330px*var(--u));opacity:0;pointer-events:none}
-#kit .kstm.s2{width:calc(110px*var(--u));left:calc(10px*var(--u))}
-#kit.cook .kstm{animation:kstm 3.4s ease-out infinite}
-#kit.cook .kstm.s2{animation-delay:1.7s}
-@keyframes kstm{0%{opacity:0;transform:translateY(18%) scale(.7) rotate(-3deg)}35%{opacity:.7}70%{opacity:.45;transform:translateY(-22%) scale(.95) rotate(2deg)}100%{opacity:0;transform:translateY(-40%) scale(1.05) rotate(-2deg)}}
+#kit .kstm{position:absolute;width:calc(70px*var(--u));height:calc(90px*var(--u));left:calc(-60px*var(--u));top:calc(-300px*var(--u));opacity:0;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse at 50% 60%,rgba(255,255,255,.75),rgba(255,255,255,.35) 45%,rgba(255,255,255,0) 70%);filter:blur(calc(5px*var(--u)))}
+#kit .kstm.s2{width:calc(60px*var(--u));left:calc(-10px*var(--u))}#kit .kstm.s3{width:calc(54px*var(--u));left:calc(30px*var(--u))}
+#kit.cook .kstm{animation:kstm 4.2s ease-in-out infinite}
+#kit.cook .kstm.s2{animation-delay:1.4s}#kit.cook .kstm.s3{animation-delay:2.8s}
+@keyframes kstm{0%{opacity:0;transform:translate(0,30%) scale(.6)}25%{opacity:.55}60%{opacity:.35;transform:translate(8%,-30%) scale(1)}100%{opacity:0;transform:translate(-6%,-80%) scale(1.25)}}
 #kit .klad{width:calc(110px*var(--u));left:calc(18px*var(--u));top:calc(-300px*var(--u));transform-origin:20% 95%;opacity:0;transition:opacity .4s}
 #kit.cook .klad{opacity:1;animation:kld 2.4s ease-in-out infinite}
 #kit .klad.stir{animation:kld .5s ease-in-out 2!important}
@@ -967,7 +967,7 @@ function i18nDOM(root){if(LANG!=='en')return;var w=document.createTreeWalker(roo
 <div id="fac" role="dialog" aria-label="시설"><img class="ftt" id="facT" alt=""><button type="button" id="facX" aria-label="닫기"><img src="assets/ui2/rClose.webp" alt=""></button><div class="fko" id="facKo"></div><img class="fth" id="facTh" alt=""><div class="feff" id="facEff"></div><div class="feff ghrow" id="facGh" hidden></div><div class="fslots" id="facSlots"></div><div class="fpick" id="facPick" hidden></div><p class="fnote">일하는 아이들은 30분~1시간 일하고 1시간쯤 꾸벅꾸벅 졸아요. 깨워 주면 다시 일해요.</p></div>
 <div id="kit" role="dialog" aria-label="줄기 부엌"><div class="kbg" id="kbg"></div>
   <div class="kst kov" id="kov"><i class="kfire"></i><div class="kmouth"><img class="kflm f1" src="assets/ui2/flame.webp" alt=""><img class="kflm f2" src="assets/ui2/flame.webp" alt=""><img class="kflm f3" src="assets/ui2/flame.webp" alt=""><img class="kbk" id="kBake" alt=""><i class="kglow"></i></div></div>
-  <div class="kst" id="kst"><img class="kpot" src="assets/ui2/pot.webp" alt=""><img class="kjam" id="kJam" src="assets/ui2/potJam.webp" alt=""><img class="kstm s1" src="assets/ui2/steam1.webp?v=2" alt=""><img class="kstm s2" src="assets/ui2/steam2.webp?v=2" alt=""><img class="klad" src="assets/ui2/spoon.webp" alt=""><span class="kfly f1"></span><span class="kfly f2"></span><span class="kfly f3"></span><img class="kspk" src="assets/ui2/sparkle.webp" alt=""><img class="kdish" id="kDish" alt=""><button type="button" id="kPotHit" aria-label="냄비 젓기"></button></div>
+  <div class="kst" id="kst"><img class="kpot" src="assets/ui2/pot.webp" alt=""><img class="kjam" id="kJam" src="assets/ui2/potJam.webp" alt=""><span class="kstm s1"></span><span class="kstm s2"></span><span class="kstm s3"></span><img class="klad" src="assets/ui2/spoon.webp" alt=""><span class="kfly f1"></span><span class="kfly f2"></span><span class="kfly f3"></span><img class="kspk" src="assets/ui2/sparkle.webp" alt=""><img class="kdish" id="kDish" alt=""><button type="button" id="kPotHit" aria-label="냄비 젓기"></button></div>
   <div id="kBag" aria-hidden="true"><i></i><b></b></div><img class="kdone" src="assets/ui2/tComplete.webp" alt="Complete!"><img class="kconf" src="assets/ui2/confetti.webp" alt="">
   <div class="khd"><button type="button" id="kBack" aria-label="마을로 돌아가기"><img src="assets/ui2/rBack.webp" alt=""></button><div class="kstrip" id="kStrip">줄기 부엌 · 화덕</div></div>
   <div class="ksheet"><img class="ktt" src="assets/ui2/lStove.webp" alt="Stove"><div class="kwk" id="kWk"></div><div class="kbody" id="kBody"></div></div>
@@ -1153,11 +1153,12 @@ var dpr=1,W=0,H=0,view={x:OX,y:OY,w:752},tv=null,follow=false,zl=0;
 var VSTAGE=[[1,.46],[3,.68],[5,.76],[10,.82],[15,.88],[22,.94],[30,1],[35,1],[50,1]];
 function popN(){return (typeof G!=='undefined'&&G)?(G.preview||G.n||1):1;}
 function villageLv(){var p=popN();return p>=50?25:p>=35?20:p>=30?17:p>=22?14:p>=15?11:p>=10?8:p>=5?5:p>=3?3:1;}
+function fullK(){var p=popN(),k=.46;VSTAGE.forEach(function(v){if(p>=v[0])k=v[1];});return k;}
 function full(){var p=popN(),k=.46;VSTAGE.forEach(function(v){if(p>=v[0])k=v[1];});var h=WH*k,asp=W/H,w=h*asp;if(w>WW){w=WW;h=w/asp;}return {x:Math.max(0,Math.min(WW-w,WW/2-w/2)),y:WH-h,w:w};}
 function levelW(l){var f=full().w;return l===0?f:l===1?Math.max(340,f*.52):230;}
 function clampView(v){var f=full(),fh=f.w*H/W;v.w=Math.max(220,Math.min(f.w,v.w));var h=v.w*H/W;
   // following someone: the camera may slide past the usual frame so they stay in the middle of the screen
-  var x0=f.x,x1=f.x+f.w,y0=f.y<=1?-Math.round(150*v.w/Math.max(1,W)):f.y,y1=f.y+fh,t=follow?(foc||sal):null,ft=!!(t&&t.x!=null);
+  var x0=f.x,x1=f.x+f.w,y0=fullK()>=1?-Math.round(150*v.w/Math.max(1,W)):f.y,y1=f.y+fh,t=follow?(foc||sal):null,ft=!!(t&&t.x!=null);
   if(ft){var tx=t.x+OX,ty=t.y+OY-(foc?80:60);x0=Math.max(0,Math.min(x0,tx-v.w/2));x1=Math.min(WW,Math.max(x1,tx+v.w/2));y0=Math.max(0,Math.min(y0,ty-h*.55));y1=Math.min(WH,Math.max(y1,ty+h*.45));}
   v.x=Math.max(x0,Math.min(x1-v.w,v.x));v.y=Math.max(y0,Math.min(y1-h,v.y));
   if(!ft&&v.w<=IW-60&&v.y+h*.5>OY+80)v.x=Math.max(OX+30,Math.min(OX+IW-30-v.w,v.x));
@@ -1194,7 +1195,7 @@ function offCap(){pace();return Math.min(8*3600000,Math.max(OFF_CAP,FEED_CAP*MEA
 function boostGp(frac){var want=Math.ceil(STAGE_GP*frac);if((G.tut||0)<11||tSpd()>1||G.rich)return want;if(!PACE[(G.n||1)-1])want=Math.min(want,Math.round(2*60/(MEAL_MS/60000))*MEAL_GP);var dk=new Date().toDateString();if(!G.bst||G.bst.d!==dk)G.bst={d:dk,g:0};
   var cap=Math.round(6*60/(MEAL_MS/60000))*MEAL_GP,g=Math.max(0,Math.min(want,cap-G.bst.g));G.bst.g+=g;return g;}
 function boostLeft(){var dk=new Date().toDateString();if((G.tut||0)<11||tSpd()>1||G.rich)return 1;if(!G.bst||G.bst.d!==dk)return 1;return Math.max(0,1-G.bst.g/(Math.round(6*60/(MEAL_MS/60000))*MEAL_GP));}
-var G={v:1,econ2:1,store:0,ter:null,nap:null,dpos:null,up:null,dm:null,dq:null,ad:null,sub:null,noad:null,postLast:null,zones:null,tea:null,bln:null,blnD:0,read:null,n:1,berries:20,gp:0,feeder:2,hungerMs:0,hungry:false,patch:20,patchMs:0,ts:0,born:0,petN:0,met:{},fish:0,honey:50,res:[],names:{},dozeFast:false,ord:[],bag:{},tut:0,cook:null,egg:null,tutV:0,aff:{},rel:{},ep:null,epNext:0,sulk:{},shelf:[],mktT:0,deco:{},place:{},mat:{},critT:{},festT:null,festGot:{},tspd:1,rich:false,soc:null,socDemo:null,bst:null,seaT:null,dn:'auto',gh:0,seaSeen:0,post:null,postD:0,postC:0,postNext:0,trip:null,tripN:{},album:[],nuts:null,festT:null,festSeen:'',clk0:0,stc:0,epR:null,scD:0,postMax:1,pp:0,postAt:null,postR:null},awayMs=0;
+var G={v:1,econ2:1,store:0,ter:null,nap:null,dpos:null,up:null,dm:null,dq:null,ad:null,sub:null,noad:null,postLast:null,zones:null,tea:null,bln:null,blnD:0,read:null,n:1,berries:20,gp:0,feeder:2,hungerMs:0,hungry:false,patch:20,patchMs:0,ts:0,born:0,petN:0,met:{},fish:0,honey:50,res:[],names:{},dozeFast:false,ord:[],bag:{},tut:0,cook:null,egg:null,tutV:0,aff:{},rel:{},ep:null,epNext:0,sulk:{},shelf:[],mktT:0,deco:{},place:{},mat:{},critT:{},festT:null,festGot:{},tspd:1,rich:false,soc:null,socDemo:null,bst:null,seaT:null,dn:'auto',gh:0,seaSeen:0,post:null,postD:0,postC:0,postNext:0,trip:null,tripN:{},album:[],nuts:null,festT:null,festSeen:'',clk0:0,stc:0,epR:null,scD:0,postMax:1,pp:0,postAt:null,postR:null,seaR:0},awayMs=0;
 try{var sv=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(sv&&sv.v===1){for(var kk in G)if(sv[kk]!==undefined)G[kk]=sv[kk];if(G.ts)awayMs=Math.max(0,Date.now()-G.ts);if(!sv.econ2){G.honey=(G.honey||0)*5;G.econ2=1;}}}catch(_){}
 if(typeof sv==='undefined'||!sv){G.egg={i:0,taps:0};G.tutV=2;}
 if(!G.tutV){G.tut=(G.tut>=9)?99:0;G.tutV=2;}
@@ -1203,6 +1204,7 @@ var STORE_UP=[500,1200,2500,5000,9000];
 function storeCap(){return 300+150*(G.store||0);}
 function stockN(){var n=(typeof berries==='number'?berries:0)+(G.fish||0),M=G.mat||{};for(var k in M)n+=Math.max(0,M[k]||0);return n;}
 function storeLeft(){return Math.max(0,storeCap()-stockN());}
+if(!G.seaR){G.seaR=1;G.seaT=null;}
 var stcN=0;if(!G.stc){G.stc=1;(function(){var n=stockN(),c=storeCap();if(n<=c)return;var k=c/n,M=G.mat||{};berries=Math.floor(berries*k);G.berries=berries;G.fish=Math.floor((G.fish||0)*k);for(var m in M)M[m]=Math.floor(Math.max(0,M[m]||0)*k);stcN=n;})();}
 if(stcN)setTimeout(function(){try{save();toast(__T('창고 한도에 맞춰 재료를 정리했어요 (')+storeCap()+__T('칸)'));}catch(_){}},6000);
 var storeNag=0;function storeFull(x,y){var now=Date.now();if(x!=null&&(view.w<900||now-storeNag>8000))addLabel(__T('창고가 꽉 찼어요'),x,y);if(now-storeNag>60000){storeNag=now;setStatus(__T('창고가 꽉 찼어요 (')+stockN()+'/'+storeCap()+__T(') · 장터에서 팔거나 요리하면 일손들이 다시 모아 와요'));}}
