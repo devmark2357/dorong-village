@@ -10,12 +10,12 @@
     "apple": true
   },
   "admob": {
-    "androidApp": "",
-    "iosApp": "",
-    "rewardedAndroid": "",
-    "rewardedIos": "",
-    "interstitialAndroid": "",
-    "interstitialIos": ""
+    "androidApp": "ca-app-pub-7890357910066607~2553916576",
+    "iosApp": "ca-app-pub-7890357910066607~8700075418",
+    "rewardedAndroid": "ca-app-pub-7890357910066607/4134144447",
+    "rewardedIos": "ca-app-pub-7890357910066607/7730221638",
+    "interstitialAndroid": "ca-app-pub-7890357910066607/3100711487",
+    "interstitialIos": "ca-app-pub-7890357910066607/4760830407"
   },
   "facebook": {
     "appId": "",
