@@ -74,13 +74,17 @@ export function checkTxn(t: AppleTxn, o: { bundle: string; accountId: string; tr
 }
 
 // ───────── App Store Server API (서버 키가 있을 때) ─────────
-export const appleApiReady = () => !!(env('DV_APPLE_IAP_KEY_ID') && env('DV_APPLE_IAP_ISSUER_ID') && env('DV_APPLE_IAP_PRIVATE_KEY'));
+// secret names follow the console instruction doc (DV_APPLE_IAP_KEY_P8 · DV_APPLE_IAP_KEY_ID · DV_APPLE_ISSUER_ID)
+const appleKeyId = () => env('DV_APPLE_IAP_KEY_ID');
+const appleIssuer = () => env('DV_APPLE_ISSUER_ID') || env('DV_APPLE_IAP_ISSUER_ID');
+const appleP8 = () => env('DV_APPLE_IAP_KEY_P8') || env('DV_APPLE_IAP_PRIVATE_KEY');
+export const appleApiReady = () => !!(appleKeyId() && appleIssuer() && appleP8());
 function pemToDer(pem: string) { return b64Decode(pem.replace(/-----[^-]+-----/g, '').replace(/\\n/g, '').replace(/\s+/g, '')); }
 let tokCache: { t: string; exp: number } | null = null;
 /** App Store Server API용 JWT (ES256 · 20분). 키는 App Store Connect → 사용자 및 액세스 → 통합 → 인앱 구매(.p8) */
 export async function appStoreToken(now = Date.now()): Promise<string> {
   if (tokCache && tokCache.exp > now + 60_000) return tokCache.t;
-  const kid = env('DV_APPLE_IAP_KEY_ID'), iss = env('DV_APPLE_IAP_ISSUER_ID'), pem = env('DV_APPLE_IAP_PRIVATE_KEY');
+  const kid = appleKeyId(), iss = appleIssuer(), pem = appleP8();
   if (!kid || !iss || !pem) fail('pay_setup', '애플 결제 서버 설정 전이에요 (관리자 문의)', 503);
   const iat = Math.floor(now / 1000);
   const h = b64urlEncode(utf8(JSON.stringify({ alg: 'ES256', kid, typ: 'JWT' })));

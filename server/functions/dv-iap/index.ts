@@ -2,7 +2,7 @@
 // We confirm it with the store, record it once (dv.purchases, unique per store order) and tell the app what to give.
 // Google: purchaseToken → Play Developer API (service account), then consume / acknowledge.
 // Apple: StoreKit 2 signed transaction (JWS) checked against Apple's root; with server keys we also fetch it from Apple.
-// Secrets: DV_GOOGLE_SA_JSON · DV_APPLE_IAP_KEY_ID · DV_APPLE_IAP_ISSUER_ID · DV_APPLE_IAP_PRIVATE_KEY (optional).
+// Secrets: DV_GOOGLE_SA_JSON · DV_APPLE_IAP_KEY_P8 · DV_APPLE_IAP_KEY_ID · DV_APPLE_ISSUER_ID (Apple ones optional).
 import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 import { Fail, fail, sha256 } from "./fail.ts";
 import { getProductPurchase, checkPlay, settle, googleReady } from "./google.ts";
