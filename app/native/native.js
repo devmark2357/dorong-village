@@ -69,7 +69,9 @@
   });
 
   // ---------- OTA (capgo updater, manual mode, self-hosted) ----------
-  // dv.config.ota[plat] = [{ ota: n, url: '<manifest json>', sha256, min_native, max_native }]
+  // entries come from the site's ota/index.json (written by app/ota-publish.sh) plus dv.config.ota[plat];
+  // dv.config.ota_off = true stops all updates, dv.config.ota_block = [n, …] skips bad bundles.
+  // entry = { ota: n, url: '<manifest json>', sha256, min_native, max_native }
   // manifest = { ota, native, base: 'https://…/ota', files: [[path, sha256, size], …] } — files the app already has are copied, the rest downloaded.
   var BAD = 'dv_ota_bad', NEXT = 'dv_ota_next';
   function sha256hex(s) { return crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)).then(function (d) { return Array.prototype.map.call(new Uint8Array(d), function (b) { return ('0' + b.toString(16)).slice(-2); }).join(''); }); }
@@ -86,11 +88,16 @@
       if (want) ls(NEXT, null);
     }).catch(function () {});
   };
+  var OTA_INDEX = 'https://dorong.laboon.online/ota/index.json';
   function otaCheck(cfg) {
-    if (!has('CapacitorUpdater')) return;
-    var list = (cfg && cfg.ota && cfg.ota[PLAT]) || [];
+    if (!has('CapacitorUpdater') || (cfg && cfg.ota_off)) return;
+    var block = (cfg && cfg.ota_block) || [];
+    fetch(OTA_INDEX + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+      .then(function (idx) { otaPick([].concat((idx && (idx[PLAT] || idx.all)) || [], (cfg && cfg.ota && cfg.ota[PLAT]) || []), block); });
+  }
+  function otaPick(list, block) {
     var fit = list.filter(function (e) {
-      return e && e.ota > DVN.ota && /^https:\/\//.test(e.url || '') && /^[0-9a-f]{64}$/.test(e.sha256 || '') && bad().indexOf(e.ota) < 0 &&
+      return e && e.ota > DVN.ota && /^https:\/\//.test(e.url || '') && /^[0-9a-f]{64}$/.test(e.sha256 || '') && bad().indexOf(e.ota) < 0 && block.indexOf(e.ota) < 0 &&
         (!e.min_native || cmpVer(DVN.nativeVer, e.min_native) >= 0) && (!e.max_native || cmpVer(DVN.nativeVer, e.max_native) <= 0);
     }).sort(function (a, b) { return b.ota - a.ota; })[0];
     if (!fit) return;
