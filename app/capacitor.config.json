@@ -1,0 +1,54 @@
+{
+  "appId": "online.laboon.dorong",
+  "appName": "도롱도롱 느림마을",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": false,
+    "webContentsDebuggingEnabled": false,
+    "backgroundColor": "#F6D6DC"
+  },
+  "ios": {
+    "backgroundColor": "#F6D6DC",
+    "contentInset": "never",
+    "scrollEnabled": false,
+    "allowsLinkPreview": false,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "SocialLogin": {
+      "providers": {
+        "google": true,
+        "apple": true,
+        "facebook": false,
+        "twitter": false
+      },
+      "logLevel": 1
+    },
+    "NativePurchases": {
+      "autoFinishTransactions": false
+    },
+    "CapacitorUpdater": {
+      "autoUpdate": false,
+      "appReadyTimeout": 15000,
+      "responseTimeout": 30,
+      "autoDeleteFailed": true,
+      "autoDeletePrevious": true,
+      "resetWhenUpdate": true,
+      "updateUrl": "",
+      "statsUrl": "",
+      "channelUrl": "",
+      "shakeMenu": false
+    },
+    "FirebaseMessaging": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    }
+  }
+}

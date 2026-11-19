@@ -1,0 +1,26 @@
+{
+  "name": "dorong-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Capacitor app (Android + iOS) for 도롱도롱 느림마을",
+  "scripts": {
+    "sync": "./sync.sh",
+    "build:aab": "./build-aab.sh"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "8.3.0",
+    "@capacitor-firebase/analytics": "8.5.2",
+    "@capacitor-firebase/messaging": "8.5.2",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3",
+    "@capgo/capacitor-social-login": "8.7.5",
+    "@capgo/capacitor-updater": "8.53.1",
+    "@capgo/native-purchases": "8.9.6",
+    "@dorong/fb-events": "file:plugins/fb-events",
+    "@dorong/install-referrer": "file:plugins/install-referrer"
+  }
+}

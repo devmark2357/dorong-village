@@ -1,0 +1,22 @@
+// Redirect Maven Central (repo.maven.apache.org / repo1.maven.org) to Google's
+// Maven Central mirror. Used by build-aab.sh because Maven Central is flaky
+// through some egress proxies. Disable with DORONG_NO_MAVEN_MIRROR=1.
+def MIRROR = 'https://maven-central.storage-download.googleapis.com/maven2/'
+def redirect = { repos ->
+    repos.configureEach { r ->
+        if (r instanceof MavenArtifactRepository) {
+            def u = r.url.toString()
+            if (u.contains('repo.maven.apache.org') || u.contains('repo1.maven.org')) {
+                r.url = MIRROR
+            }
+        }
+    }
+}
+beforeSettings { settings ->
+    redirect(settings.pluginManagement.repositories)
+    redirect(settings.dependencyResolutionManagement.repositories)
+}
+allprojects {
+    redirect(buildscript.repositories)
+    redirect(repositories)
+}

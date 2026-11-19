@@ -1,0 +1,18 @@
+{
+  "_doc": "앱 설정 한 곳. 빈 값은 콘솔 작업(지시서 10번 목록)이 끝나면 채운다. scripts/apply-config.mjs가 이 값을 안드로이드·iOS 파일과 www/dv-config.js에 넣는다. 비밀값(키 파일·비밀번호)은 여기 넣지 않는다.",
+  "appId": "online.laboon.dorong",
+  "name": "도롱도롱 느림마을",
+  "version": "1.0.0",
+  "build": 1,
+  "login": { "googleWeb": "", "googleIos": "", "apple": true },
+  "admob": {
+    "androidApp": "", "iosApp": "",
+    "rewardedAndroid": "", "rewardedIos": "",
+    "interstitialAndroid": "", "interstitialIos": ""
+  },
+  "facebook": { "appId": "", "clientToken": "" },
+  "iap": {
+    "honey": { "dorong.honey280": 280, "dorong.honey1500": 1500, "dorong.honey3300": 3300, "dorong.honey8800": 8800, "dorong.honey19000": 19000 },
+    "start": "dorong.start", "noad": "dorong.noad", "pass30": "dorong.pass30", "outfit": "dorong.outfit"
+  }
+}

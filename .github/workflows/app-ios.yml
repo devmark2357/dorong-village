@@ -1,0 +1,99 @@
+# iOS 앱 빌드 (손으로 실행 — 맥 러너)
+#  - simulator_only=true: 서명·업로드 없이 시뮬레이터용으로 컴파일만(플러그인·권한 확인)
+#  - 아니면: 아카이브 → App Store Connect(TestFlight)로 업로드
+# Secrets(대표가 직접 넣음): ASC_KEY_ID · ASC_ISSUER_ID · ASC_KEY_P8(.p8 내용 전체)
+# 서명은 Xcode 자동 서명 + API 키(-allowProvisioningUpdates). 팀 5792MVQU7U(LABOON).
+name: app-ios
+on:
+  workflow_dispatch:
+    inputs:
+      simulator_only:
+        description: '시뮬레이터 빌드만(서명·업로드 없음)'
+        type: boolean
+        default: true
+      release:
+        description: 'ID가 다 채워져 있는지 확인(출시용)'
+        type: boolean
+        default: false
+concurrency:
+  group: app-ios-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Select Xcode
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | grep -v -i beta | sort -V | tail -1)
+          [ -n "$X" ] || X=$(ls -d /Applications/Xcode_16*.app | grep -v -i beta | sort -V | tail -1)
+          sudo xcode-select -s "$X"; xcodebuild -version
+      - name: Capacitor sync
+        working-directory: app
+        run: |
+          npm ci
+          if [ "${{ inputs.release }}" = "true" ]; then node scripts/apply-config.mjs --release; else node scripts/apply-config.mjs; fi
+          ./sync.sh
+          npx cap sync ios
+      - name: Simulator build
+        if: inputs.simulator_only
+        working-directory: app/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath $RUNNER_TEMP/dd CODE_SIGNING_ALLOWED=NO build 2>&1 | tail -60
+      - name: API key
+        if: ${{ !inputs.simulator_only }}
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          printf '%s' "$ASC_KEY_P8" > ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8
+      - name: Archive
+        if: ${{ !inputs.simulator_only }}
+        working-directory: app/ios/App
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          set -o pipefail
+          BN=$(node -p "require('../../dorong.config.json').build")
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath $RUNNER_TEMP/App.xcarchive CURRENT_PROJECT_VERSION=$BN -allowProvisioningUpdates \
+            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
+            -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID archive | tail -50
+      - name: Check Sign in with Apple entitlement
+        if: ${{ !inputs.simulator_only }}
+        run: |
+          APP=$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app
+          codesign -d --entitlements - --xml "$APP" 2>/dev/null > $RUNNER_TEMP/ent.plist
+          /usr/libexec/PlistBuddy -c 'Print :com.apple.developer.applesignin' $RUNNER_TEMP/ent.plist || { echo "::error::Sign in with Apple 권한 없음"; exit 1; }
+      - name: Export & upload to App Store Connect
+        if: ${{ !inputs.simulator_only }}
+        working-directory: app/ios/App
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          cat > $RUNNER_TEMP/export.plist <<PL
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>5792MVQU7U</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          PL
+          xcodebuild -exportArchive -archivePath $RUNNER_TEMP/App.xcarchive -exportOptionsPlist $RUNNER_TEMP/export.plist \
+            -exportPath $RUNNER_TEMP/out -allowProvisioningUpdates \
+            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
+            -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID
+      - name: Cleanup key
+        if: always()
+        run: rm -rf ~/.appstoreconnect

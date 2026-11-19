@@ -1,0 +1,68 @@
+# 안드로이드 앱 빌드
+#  - push(app/**): 확인용 빌드 — 이 실행에서만 쓰는 버려지는 키로 서명, AAB는 남기지 않는다.
+#  - 수동 실행(release=true): 진짜 업로드 키(저장소 Secrets)로 서명한 AAB를 Artifacts로 남긴다 → Play Console 내부 테스트에 올린다.
+# Secrets(대표가 직접 넣음): DV_KEYSTORE_B64(업로드 키 .jks를 base64) · DV_KEYSTORE_PASS · DV_KEY_ALIAS · DV_KEY_PASS
+name: app-android
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: '진짜 업로드 키로 서명한 AAB 만들기 (ID가 다 채워져 있어야 함)'
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths: ['app/**', '.github/workflows/app-android.yml']
+permissions:
+  contents: read
+concurrency:
+  group: app-android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  aab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - name: Signing key
+        env:
+          REL: ${{ inputs.release }}
+          KS_B64: ${{ secrets.DV_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.DV_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.DV_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.DV_KEY_PASS }}
+        run: |
+          K=$RUNNER_TEMP/upload.jks
+          if [ "$REL" = "true" ]; then
+            [ -n "$KS_B64" ] || { echo "::error::DV_KEYSTORE_B64 secret이 없어요"; exit 1; }
+            printf '%s' "$KS_B64" | base64 -d > "$K"
+            printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' "$K" "$KS_PASS" "$KEY_ALIAS" "$KEY_PASS" > $RUNNER_TEMP/ks.properties
+          else
+            keytool -genkeypair -keystore "$K" -storepass ci-only-pass -keypass ci-only-pass -alias ci -keyalg RSA -keysize 2048 -validity 1 -dname "CN=ci-check" -noprompt
+            printf 'storeFile=%s\nstorePassword=ci-only-pass\nkeyAlias=ci\nkeyPassword=ci-only-pass\n' "$K" > $RUNNER_TEMP/ks.properties
+          fi
+      - name: build-aab.sh
+        working-directory: app
+        env:
+          DORONG_KEYSTORE_PROPERTIES: ${{ runner.temp }}/ks.properties
+          RELEASE: ${{ inputs.release && '1' || '0' }}
+        run: |
+          set -o pipefail
+          npm ci
+          ANDROID_HOME="${ANDROID_HOME:-$ANDROID_SDK_ROOT}" ./build-aab.sh 2>&1 | tail -40
+          ls -la android/app/build/outputs/bundle/release/app-release.aab
+          unzip -l android/app/build/outputs/bundle/release/app-release.aab | grep -E 'base/assets/public/(index.html|native.js|dv-config.js)'
+      - name: Keep AAB (release only)
+        if: inputs.release
+        uses: actions/upload-artifact@v4
+        with:
+          name: dorong-aab
+          path: app/android/app/build/outputs/bundle/release/app-release.aab
+          retention-days: 7
+      - name: Cleanup key
+        if: always()
+        run: rm -f $RUNNER_TEMP/upload.jks $RUNNER_TEMP/ks.properties

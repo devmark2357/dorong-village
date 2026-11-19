@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">느림마을</string>
+    <string name="title_activity_main">느림마을</string>
+    <string name="package_name">online.laboon.dorong</string>
+    <string name="custom_url_scheme">online.laboon.dorong</string>
+    <!-- Meta (Facebook) SDK: replace placeholders with the real App ID / client token -->
+    <string name="facebook_app_id" translatable="false">0</string>
+    <string name="facebook_client_token" translatable="false">0</string>
+</resources>

@@ -1,0 +1,12 @@
+{
+  "name": "@dorong/install-referrer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local Capacitor plugin (Android only): Google Play Install Referrer (utm_source · utm_campaign · gclid) for W-34 #3 / W-35. iOS has none — the app records 'organic'.",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "files": ["android/src/main/", "android/build.gradle", "dist/"],
+  "capacitor": { "android": { "src": "android" } },
+  "peerDependencies": { "@capacitor/core": ">=8.0.0" }
+}
