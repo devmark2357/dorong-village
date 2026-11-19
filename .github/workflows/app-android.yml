@@ -1,13 +1,18 @@
 # 안드로이드 앱 빌드
 #  - push(app/**): 확인용 빌드 — 이 실행에서만 쓰는 버려지는 키로 서명, AAB는 남기지 않는다.
 #  - 수동 실행(release=true): 진짜 업로드 키(저장소 Secrets)로 서명한 AAB를 Artifacts로 남긴다 → Play Console 내부 테스트에 올린다.
-# Secrets(대표가 직접 넣음): DV_KEYSTORE_B64(업로드 키 .jks를 base64) · DV_KEYSTORE_PASS · DV_KEY_ALIAS · DV_KEY_PASS
+# Secrets: DV_KEYSTORE_B64(업로드 키 .jks를 base64) · DV_KEYSTORE_PASS · DV_KEY_ALIAS · DV_KEY_PASS(비우면 DV_KEYSTORE_PASS와 같음)
+#  - test_ids=true: 진짜 키로 서명하되 아직 없는 광고·페북 ID는 테스트 값으로 둔다(내부 테스트용 첫 빌드).
 name: app-android
 on:
   workflow_dispatch:
     inputs:
       release:
         description: '진짜 업로드 키로 서명한 AAB 만들기 (ID가 다 채워져 있어야 함)'
+        type: boolean
+        default: false
+      test_ids:
+        description: '광고·페북 ID가 비어 있어도 테스트 값으로 빌드 (내부 테스트용)'
         type: boolean
         default: false
   push:
@@ -40,7 +45,7 @@ jobs:
           if [ "$REL" = "true" ]; then
             [ -n "$KS_B64" ] || { echo "::error::DV_KEYSTORE_B64 secret이 없어요"; exit 1; }
             printf '%s' "$KS_B64" | base64 -d > "$K"
-            printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' "$K" "$KS_PASS" "$KEY_ALIAS" "$KEY_PASS" > $RUNNER_TEMP/ks.properties
+            printf 'storeFile=%s\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' "$K" "$KS_PASS" "${KEY_ALIAS:-upload}" "${KEY_PASS:-$KS_PASS}" > $RUNNER_TEMP/ks.properties
           else
             keytool -genkeypair -keystore "$K" -storepass ci-only-pass -keypass ci-only-pass -alias ci -keyalg RSA -keysize 2048 -validity 1 -dname "CN=ci-check" -noprompt
             printf 'storeFile=%s\nstorePassword=ci-only-pass\nkeyAlias=ci\nkeyPassword=ci-only-pass\n' "$K" > $RUNNER_TEMP/ks.properties
@@ -49,7 +54,7 @@ jobs:
         working-directory: app
         env:
           DORONG_KEYSTORE_PROPERTIES: ${{ runner.temp }}/ks.properties
-          RELEASE: ${{ inputs.release && '1' || '0' }}
+          RELEASE: ${{ (inputs.release && !inputs.test_ids) && '1' || '0' }}
         run: |
           set -o pipefail
           npm ci
