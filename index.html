@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795076090";</script></head><body>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795077087";</script></head><body>
 <meta charset="utf-8">
 <title>도롱도롱 느림마을</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1122,7 +1122,7 @@ function season(){if(G.seaT!=null&&G.seaT>=0)return G.seaT;return seaBlock()%4;}
 function berryRate(){return season()!==3?1:[0,.25,.45,.7][G.gh||0];}
 // real local time of day: 0 = day, 1 = night, eased through dawn (5–7) and dusk (17–19)
 // seasonal pictures: spring is the original art; the others load when first needed. A new season fades in over 3 s.
-var SEA_V='4',SEAI={},seaFrom=-1,seaA=1;
+var SEA_V='5',SEAI={},seaFrom=-1,seaA=1;
 function seaImg(base,s){if(s===0)return base==='tree'?TREE:YHI;var key=base+SEA_K[s];if(!SEAI[key]){var im=new Image();im.src='assets/season/'+base+'_'+SEA_K[s]+'.webp?v='+SEA_V;SEAI[key]=im;}var im2=SEAI[key];return im2.complete&&im2.naturalWidth?im2:null;}
 var SEA_MSG=[__T('봄이 왔어요! 벚꽃이 흩날려요'),__T('여름이 왔어요! 연못에 물고기가 많아졌어요'),__T('가을이 왔어요! 곧 겨울이 와서 딸기밭이 쉬어요. 딸기를 모아 두세요'),__T('겨울이 왔어요! 딸기밭이 눈에 덮였어요. 모아 둔 딸기로 지내요')];
 function seaTick(q){var s=season();if(s!==seaLast){if(seaLast>=0){seaFrom=seaLast;seaA=0;if(!q&&!GUEST)toast(SEA_MSG[s]);}seaLast=s;seaImg('tree',(s+1)%4);seaImg('yard',(s+1)%4);setInfo();}
@@ -1167,7 +1167,7 @@ function nextJob(){if(hungry){if(sal.node==='door')startCry();else goTo('door');
 // ---------- view ----------
 // the village is one big tree. the old yard picture sits at the bottom centre (OX,OY) at its own scale,
 // so every yard coordinate in this file stays as it was; the camera works in tree (world) coordinates.
-var WW=1634,WH=2921,OX=441,OY=1577,TREE=new Image();TREE.src='assets/tree.webp';
+var WW=1634,WH=2921,OX=441,OY=1577,TREE=new Image();TREE.src='assets/tree.webp?v=2';
 var dpr=1,W=0,H=0,view={x:OX,y:OY,w:752},tv=null,follow=false,zl=0;
 var VSTAGE=[[1,.46],[3,.68],[5,.76],[10,.82],[15,.88],[22,.94],[30,1],[35,1],[50,1]];
 function popN(){return (typeof G!=='undefined'&&G)?(G.preview||G.n||1):1;}
@@ -1553,7 +1553,7 @@ function update(dt,t){
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
 function cloud(x,y,w,a){ctx.fillStyle='rgba(255,255,255,'+a+')';var h=w*0.32;ctx.beginPath();ctx.ellipse(x,y,w*0.5,h*0.5,0,0,Math.PI*2);ctx.ellipse(x-w*0.22,y-h*0.25,w*0.24,h*0.5,0,0,Math.PI*2);ctx.ellipse(x+w*0.15,y-h*0.38,w*0.28,h*0.6,0,0,Math.PI*2);ctx.fill();}
 // the moving yard video is softer than the still tree, so its edges melt into the tree and it fades out as the camera steps back
-var YHI=new Image();YHI.src='assets/yard_hi.webp';
+var YHI=new Image();YHI.src='assets/yard_hi.webp?v=2';
 // the sharp, upscaled yard (feathered edges baked in); draw only the part on screen
 function drawYHI(){var s=season();if(seaA<1&&seaFrom>=0){var Yf=seaImg('yard',seaFrom);if(Yf)drawYHI0(Yf,1);var Yc=seaImg('yard',s);if(Yc)drawYHI0(Yc,seaA);return;}var Y=seaImg('yard',s);if(Y)drawYHI0(Y,1);}
 function drawYHI0(YHI,a){if(!YHI.complete||!YHI.naturalWidth)return;ctx.globalAlpha=a;drawYHI1(YHI);ctx.globalAlpha=1;}
