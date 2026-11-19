@@ -219,6 +219,15 @@ async function submit() {
   console.log('submitted for review');
 }
 
+async function cancel() {
+  for (const rs of await all(`/v1/reviewSubmissions?filter[app]=${app.id}&filter[platform]=IOS&limit=20`))
+    if (['WAITING_FOR_REVIEW', 'READY_FOR_REVIEW', 'UNRESOLVED_ISSUES'].includes(rs.attributes.state)) {
+      await patch(`/v1/reviewSubmissions/${rs.id}`, { data: { type: 'reviewSubmissions', id: rs.id, attributes: { canceled: true } } });
+      console.log('canceled submission', rs.id, rs.attributes.state);
+    }
+}
+
 if (CMD === 'meta') await meta();
+else if (CMD === 'cancel') await cancel();
 else if (CMD === 'submit') await submit();
 await status();
