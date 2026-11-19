@@ -132,7 +132,9 @@ async function meta() {
   }
 
   // review contact: same contact as the team's other live app
+  const NOTE = 'No login is required: tap "Start as Guest" (게스트로 시작하기) on the start screen. Google / Apple sign-in are optional and only keep the village across devices.\nIn-app purchases and the "Restore Purchases" (구매 복원) button are in the Honey Shop (꿀방울 상점) opened with the "+" button next to the honey drop counter at the top of the screen.';
   const rd = await soft('review detail', () => get(`/v1/appStoreVersions/${ver.id}/appStoreReviewDetail`));
+  if (rd && rd.data) await soft('review notes', () => patch(`/v1/appStoreReviewDetails/${rd.data.id}`, { data: { type: 'appStoreReviewDetails', id: rd.data.id, attributes: { notes: NOTE, demoAccountRequired: false } } }));
   if (!rd || !rd.data) {
     let contact = null;
     for (const other of (await all('/v1/apps?limit=50')).filter((a) => a.id !== app.id)) {
@@ -142,9 +144,27 @@ async function meta() {
     }
     if (contact) await soft('review detail create', () => post('/v1/appStoreReviewDetails', { data: { type: 'appStoreReviewDetails', attributes: {
       contactFirstName: contact.contactFirstName, contactLastName: contact.contactLastName, contactPhone: contact.contactPhone, contactEmail: contact.contactEmail,
-      demoAccountRequired: false, notes: 'No login is required: tap "Guest" on the start screen. Google / Apple sign-in are optional and only used to keep the village across devices.\nIn-app purchases are in the shop (honey jar icon). "Restore purchases" is in Options.' },
+      demoAccountRequired: false, notes: NOTE },
       relationships: { appStoreVersion: { data: { type: 'appStoreVersions', id: ver.id } } } } }));
     console.log('  review contact', contact ? 'copied' : 'NOT FOUND');
+  }
+
+  // price: free; availability: everywhere except China mainland (AIGC filing not done)
+  const terrAll = (await all('/v1/territories?limit=200')).map((t) => t.id);
+  const ps = await soft('price sched get', () => get(`/v1/apps/${app.id}/appPriceSchedule`));
+  if (!ps || !ps.data) {
+    const pp = (await all(`/v1/apps/${app.id}/appPricePoints?filter[territory]=USA&limit=200`)).find((x) => parseFloat(x.attributes.customerPrice) === 0);
+    if (pp) await soft('app price', () => post('/v1/appPriceSchedules', { data: { type: 'appPriceSchedules', relationships: {
+      app: { data: { type: 'apps', id: app.id } }, baseTerritory: { data: { type: 'territories', id: 'USA' } }, manualPrices: { data: [{ type: 'appPrices', id: '${p0}' }] } } },
+      included: [{ type: 'appPrices', id: '${p0}', attributes: { startDate: null }, relationships: { appPricePoint: { data: { type: 'appPricePoints', id: pp.id } } } }] }));
+    console.log('  price free', pp ? 'set' : 'NO FREE POINT');
+  }
+  const aa = await soft('availability get', () => get(`/v1/apps/${app.id}/appAvailabilityV2`));
+  if (!aa || !aa.data) {
+    await soft('availability', () => post('/v2/appAvailabilities', { data: { type: 'appAvailabilities', attributes: { availableInNewTerritories: true }, relationships: {
+      app: { data: { type: 'apps', id: app.id } }, territoryAvailabilities: { data: terrAll.map((t) => ({ type: 'territoryAvailabilities', id: '${' + t + '}' })) } } },
+      included: terrAll.map((t) => ({ type: 'territoryAvailabilities', id: '${' + t + '}', attributes: { available: t !== 'CHN' }, relationships: { territory: { data: { type: 'territories', id: t } } } })) }));
+    console.log('  availability set (no CHN)');
   }
 
   // in-app purchases
@@ -153,8 +173,9 @@ async function meta() {
   const shot = path.join(DIR, 'ko', 'ios69_01.jpg');
   for (const p of S.iap) {
     let it = iaps.find((x) => x.attributes.productId === p.id);
-    if (!it) it = (await soft('iap create ' + p.id, () => post('/v2/inAppPurchases', { data: { type: 'inAppPurchases', attributes: { name: p.en[0], productId: p.id, inAppPurchaseType: p.type, reviewNote: 'Bought from the shop (honey jar icon). Price shown in the game comes from the store.' }, relationships: { app: { data: { type: 'apps', id: app.id } } } } })) || {}).data;
+    if (!it) it = (await soft('iap create ' + p.id, () => post('/v2/inAppPurchases', { data: { type: 'inAppPurchases', attributes: { name: p.en[0], productId: p.id, inAppPurchaseType: p.type, reviewNote: 'Sold in the Honey Shop (꿀방울 상점), opened with the "+" button next to the honey drop counter at the top of the screen.' }, relationships: { app: { data: { type: 'apps', id: app.id } } } } })) || {}).data;
     if (!it) continue;
+    await soft('iap note', () => patch(`/v2/inAppPurchases/${it.id}`, { data: { type: 'inAppPurchases', id: it.id, attributes: { reviewNote: 'Sold in the Honey Shop (꿀방울 상점), opened with the "+" button next to the honey drop counter at the top of the screen.' } } }));
     const locs = await all(`/v2/inAppPurchases/${it.id}/inAppPurchaseLocalizations`);
     for (const [lc, key] of [['ko', 'ko'], ['en-US', 'en']]) if (!locs.find((x) => x.attributes.locale === lc))
       await soft(`iap loc ${p.id} ${lc}`, () => post('/v1/inAppPurchaseLocalizations', { data: { type: 'inAppPurchaseLocalizations', attributes: { locale: lc, name: p[key][0], description: p[key][1] }, relationships: { inAppPurchaseV2: { data: { type: 'inAppPurchases', id: it.id } } } } }));
