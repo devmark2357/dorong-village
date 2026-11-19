@@ -4,15 +4,34 @@
   "name": "도롱도롱 느림마을",
   "version": "1.0.0",
   "build": 1,
-  "login": { "googleWeb": "", "googleIos": "", "apple": true },
-  "admob": {
-    "androidApp": "", "iosApp": "",
-    "rewardedAndroid": "", "rewardedIos": "",
-    "interstitialAndroid": "", "interstitialIos": ""
+  "login": {
+    "googleWeb": "884046992227-u7r5oao17f1qq5dnjl1683sns6osc7r3.apps.googleusercontent.com",
+    "googleIos": "884046992227-pbbljpio3la1ihb05vj0rtd0n7bq25o7.apps.googleusercontent.com",
+    "apple": true
   },
-  "facebook": { "appId": "", "clientToken": "" },
+  "admob": {
+    "androidApp": "",
+    "iosApp": "",
+    "rewardedAndroid": "",
+    "rewardedIos": "",
+    "interstitialAndroid": "",
+    "interstitialIos": ""
+  },
+  "facebook": {
+    "appId": "",
+    "clientToken": ""
+  },
   "iap": {
-    "honey": { "dorong.honey280": 280, "dorong.honey1500": 1500, "dorong.honey3300": 3300, "dorong.honey8800": 8800, "dorong.honey19000": 19000 },
-    "start": "dorong.start", "noad": "dorong.noad", "pass30": "dorong.pass30", "outfit": "dorong.outfit"
+    "honey": {
+      "dorong.honey280": 280,
+      "dorong.honey1500": 1500,
+      "dorong.honey3300": 3300,
+      "dorong.honey8800": 8800,
+      "dorong.honey19000": 19000
+    },
+    "start": "dorong.start",
+    "noad": "dorong.noad",
+    "pass30": "dorong.pass30",
+    "outfit": "dorong.outfit"
   }
 }
