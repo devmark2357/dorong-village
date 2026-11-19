@@ -1,0 +1,28 @@
+# App Store Connect 설정·제출 (손으로 실행): 등록정보·스크린샷·미리보기·인앱 상품·연령 등급·심사 연락처, 그리고 심사 제출
+# 글자·이미지는 store-assets 브랜치(ios.json, listing.json, <언어>/ios69_0N.jpg, video/preview_<언어>.mp4)에서 읽는다.
+name: asc
+on:
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: 'meta | status | submit'
+        default: status
+concurrency:
+  group: asc
+  cancel-in-progress: false
+jobs:
+  asc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with: { ref: store-assets, path: sa }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: asc.mjs
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: node app/scripts/asc.mjs "$GITHUB_WORKSPACE/sa" "${{ inputs.cmd }}"
