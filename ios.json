@@ -1,0 +1,23 @@
+{
+  "loc": {
+    "ko": {"asc": "ko", "subtitle": "천천히 자라는 도롱뇽 힐링 마을", "promo": "괜찮아, 천천히 자라도 돼. 거대한 느림나무 속 도롱뇽 마을의 하루를 느긋하게 즐겨 보세요.", "keywords": "힐링,방치형,도롱뇽,마을,키우기,힐링게임,귀여운,크레파스,요리,꾸미기,사계절,여행,캐주얼,수집,동물"},
+    "en": {"asc": "en-US", "subtitle": "A cozy salamander idle village", "promo": "It's okay to grow slowly. Spend a gentle day in a salamander village inside a giant tree.", "keywords": "cozy,idle,healing,salamander,village,cute,relaxing,cooking,decorate,seasons,travel,casual,pet,tree"},
+    "ja": {"asc": "ja", "subtitle": "ゆっくり育つサンショウウオの癒し村", "promo": "ゆっくり大きくなっていいよ。大きな木の中にある、サンショウウオの村ののんびりした一日を。", "keywords": "癒し,放置,放置ゲーム,サンショウウオ,村,育成,かわいい,料理,着せ替え,四季,旅行,のんびり,カジュアル"},
+    "zh-CN": {"asc": "zh-Hans", "subtitle": "慢慢长大的蝾螈治愈小村", "promo": "慢慢长大也没关系。在巨大树洞里的蝾螈小村，悠闲度过一天。", "keywords": "治愈,放置,蝾螈,小村,养成,可爱,料理,换装,四季,旅行,休闲,经营"},
+    "zh-TW": {"asc": "zh-Hant", "subtitle": "慢慢長大的蠑螈療癒小村", "promo": "慢慢長大也沒關係。在巨大樹洞裡的蠑螈小村，悠閒度過一天。", "keywords": "療癒,放置,蠑螈,小村,養成,可愛,料理,換裝,四季,旅行,休閒,經營"},
+    "de": {"asc": "de-DE", "subtitle": "Gemütliches Salamander-Dorf", "promo": "Keine Eile, wachs ganz in Ruhe. Verbring einen gemütlichen Tag im Salamanderdorf in einem riesigen Baum.", "keywords": "gemütlich,idle,entspannen,salamander,dorf,süß,kochen,dekorieren,jahreszeiten,reisen,casual,baum"}
+  },
+  "iap": [
+    {"id": "dorong.honey280", "type": "CONSUMABLE", "krw": 1200, "ko": ["꿀방울 280", "꿀방울 280개 꾸러미"], "en": ["280 Honey Drops", "A small pack of 280 honey drops"]},
+    {"id": "dorong.honey1500", "type": "CONSUMABLE", "krw": 5900, "ko": ["꿀방울 1,500", "꿀방울 1,500개 인기 꾸러미"], "en": ["1,500 Honey Drops", "A popular pack of 1,500 honey drops"]},
+    {"id": "dorong.honey3300", "type": "CONSUMABLE", "krw": 12000, "ko": ["꿀방울 3,300", "꿀방울 3,300개 꾸러미"], "en": ["3,300 Honey Drops", "A pack of 3,300 honey drops"]},
+    {"id": "dorong.honey8800", "type": "CONSUMABLE", "krw": 29000, "ko": ["꿀방울 8,800", "꿀방울 8,800개 큰 꾸러미"], "en": ["8,800 Honey Drops", "A big pack of 8,800 honey drops"]},
+    {"id": "dorong.honey19000", "type": "CONSUMABLE", "krw": 59000, "ko": ["꿀방울 19,000", "꿀방울 19,000개 가장 큰 꾸러미"], "en": ["19,000 Honey Drops", "The biggest pack of 19,000 honey drops"]},
+    {"id": "dorong.start", "type": "NON_CONSUMABLE", "krw": 1200, "ko": ["시작 꾸러미", "처음 한 번만 살 수 있는 시작 꾸러미"], "en": ["Starter Pack", "A one-time pack to get your village going"]},
+    {"id": "dorong.noad", "type": "NON_CONSUMABLE", "krw": 12000, "ko": ["광고 영구 제거", "광고 없이 보상을 바로 받아요"], "en": ["Remove Ads", "Get rewards without watching ads"]},
+    {"id": "dorong.pass30", "type": "NON_RENEWING_SUBSCRIPTION", "krw": 5900, "ko": ["꿀벌 정기권 30일", "30일 동안 매일 꿀방울과 혜택"], "en": ["Bee Pass (30 days)", "Daily honey drops and perks for 30 days"]},
+    {"id": "dorong.outfit", "type": "CONSUMABLE", "krw": 9900, "ko": ["나만의 캐릭터 꾸미기", "원하는 옷을 마을 그림체로 지어 줘요"], "en": ["Custom Outfit", "Describe an outfit and we draw it for you"]}
+  ],
+  "urls": {"support": "https://dorong.laboon.online", "marketing": "https://dorong.laboon.online", "privacy": "https://dorong.laboon.online/privacy-policy.html"},
+  "copyright": "2026 LABOON"
+}
