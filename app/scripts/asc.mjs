@@ -123,8 +123,9 @@ async function meta() {
         if (['alcoholTobaccoOrDrugUseOrReferences', 'contests', 'gamblingSimulated', 'horrorOrFearThemes', 'matureOrSuggestiveThemes', 'medicalOrTreatmentInformation', 'profanityOrCrudeHumor', 'sexualContentGraphicAndNudity', 'sexualContentOrNudity', 'violenceCartoonOrFantasy', 'violenceRealistic', 'violenceRealisticProlongedGraphicOrSadistic', 'gunsOrOtherWeapons'].includes(k)) want[k] = 'NONE';
       } else if (typeof v === 'boolean' || v === undefined) want[k] = ['advertising', 'userGeneratedContent'].includes(k);
     }
-    for (const k of ['gambling', 'unrestrictedWebAccess', 'lootBox', 'messagingAndChat', 'parentalControls', 'ageAssurance', 'healthOrWellnessTopics']) if (k in ar.data.attributes) want[k] = false;
-    for (const k of ['advertising', 'userGeneratedContent']) if (k in ar.data.attributes) want[k] = true;
+    for (const k of ['gambling', 'unrestrictedWebAccess', 'lootBox', 'messagingAndChat', 'parentalControls', 'ageAssurance', 'healthOrWellnessTopics', 'socialMedia']) want[k] = false;
+    for (const k of ['ageRatingOverride', 'ageRatingOverrideV2', 'koreaAgeRatingOverride', 'gracRatingClassificationNumber', 'developerAgeRatingInfoUrl', 'socialMediaAgeRestricted']) delete want[k];
+    for (const k of ['advertising', 'userGeneratedContent']) want[k] = true;
     if ('kidsAgeBand' in ar.data.attributes) want.kidsAgeBand = null;
     console.log('  age rating fields', Object.keys(ar.data.attributes).join(','));
     await soft('age rating', () => patch(`/v1/ageRatingDeclarations/${ar.data.id}`, { data: { type: 'ageRatingDeclarations', id: ar.data.id, attributes: want } }));
