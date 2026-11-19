@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "884046992227",
+    "project_id": "dorong-village",
+    "storage_bucket": "dorong-village.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884046992227:android:87bbb6e0c444a2caa67956",
+        "android_client_info": {
+          "package_name": "online.laboon.dorong"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884046992227-u7r5oao17f1qq5dnjl1683sns6osc7r3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVYl4qYgxnz4yCg6gkMaybViZ4afdGWfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884046992227-u7r5oao17f1qq5dnjl1683sns6osc7r3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "884046992227-pbbljpio3la1ihb05vj0rtd0n7bq25o7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "online.laboon.dorong"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
