@@ -23,11 +23,34 @@ INTER = {'sit': (51, 6), 'lie': (52, 4), 'jump': (53, 9)}
 
 
 def key(img):
+    """Remove the flat blue backdrop without eating blue/purple clothes.
+    Only backdrop-coloured pixels that reach the sheet edge (or pure backdrop holes) become transparent;
+    a 2px band around them gets a soft edge and loses the blue spill."""
     a = np.asarray(img.convert('RGBA')).astype(np.float32)
-    r, g, b, a0 = a[..., 0], a[..., 1], a[..., 2], a[..., 3] / 255
-    d = b - np.maximum(r, g)
-    al = ndimage.gaussian_filter(np.clip((48 - d) / 26, 0, 1), 0.6) * a0
-    b2 = np.where(al < 0.98, np.minimum(b, np.maximum(r, g)), b)
+    rgb, a0 = a[..., :3], a[..., 3] / 255
+    h, w = rgb.shape[:2]
+    edge = np.concatenate([rgb[:4].reshape(-1, 3), rgb[-4:].reshape(-1, 3), rgb[:, :4].reshape(-1, 3), rgb[:, -4:].reshape(-1, 3)])
+    bg = np.median(edge, 0)
+    dist = np.sqrt(((rgb - bg) ** 2).sum(-1))
+    d = rgb[..., 2] - np.maximum(rgb[..., 0], rgb[..., 1])
+    cand = (dist < 78) & (d > 60)
+    lab, n = ndimage.label(cand, structure=np.ones((3, 3)))
+    if n:
+        border = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
+        mean = ndimage.mean(dist, lab, index=np.arange(1, n + 1))
+        keep = np.zeros(n + 1, bool)
+        for k in range(1, n + 1):
+            keep[k] = (k in border) or mean[k - 1] < 34
+        bgm = keep[lab]
+    else:
+        bgm = np.zeros((h, w), bool)
+    band = ndimage.binary_dilation(bgm, iterations=2) & ~bgm
+    soft = np.clip((dist - 34) / 70, 0, 1)
+    al = np.where(bgm, 0.0, np.where(band, soft, 1.0))
+    al = ndimage.gaussian_filter(al, 0.6) * a0
+    al = np.where(bgm & (al < 0.05), 0, al)
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    b2 = np.where(band, np.minimum(b, np.maximum(r, g) + 12), b)
     return Image.fromarray(np.dstack([r, g, b2, al * 255]).clip(0, 255).astype(np.uint8), 'RGBA')
 
 
