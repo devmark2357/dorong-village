@@ -103,6 +103,45 @@ tr:last-child td{border-bottom:0}
 @media(max-width:640px){.hero{min-height:170px;background-position:72% center}.hero:before{background:linear-gradient(180deg,rgba(253,246,234,.95) 0,rgba(253,246,234,.75) 45%,rgba(253,246,234,0) 75%)}.htxt{padding:20px 18px}.hero .hi{font-size:26px}}
 .kpi{position:relative}.kpi .ic{position:absolute;right:12px;top:10px;width:46px;height:46px;object-fit:contain;opacity:.95}
 .emptyi{display:block;margin:4px auto 0;width:110px;opacity:.9}
+
+#bnav{display:none}
+#pmore{display:none}
+#pmore[hidden]{display:none!important}
+@media(max-width:640px){
+  main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .sec{scroll-margin-top:64px}
+  #bnav{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:8;background:rgba(255,253,248,.96);backdrop-filter:blur(10px);border:1.5px solid var(--line);border-radius:22px;box-shadow:0 10px 26px -12px rgba(120,90,40,.45);padding:6px 4px}
+  #bnav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--sub);padding:4px 0;cursor:pointer;border-radius:14px}
+  #bnav button img{width:26px;height:26px;object-fit:contain}
+  #bnav button .rl{font-size:20px;line-height:26px;color:var(--honey)}
+  #bnav button:active{background:var(--honeySoft)}
+  .card{padding:14px 14px;border-radius:16px}
+  .tw{overflow:visible;margin:0}
+  table.rt,table.rt tbody{display:block;width:100%}
+  table.rt tr:first-child{display:none}
+  table.rt tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 10px;padding:12px 2px;border-bottom:1px dashed var(--line)}
+  table.rt tr:last-child{border-bottom:0}
+  table.rt td{display:block;border:0;padding:0;text-align:left!important;white-space:normal!important;max-width:none!important;min-width:0;overflow-wrap:anywhere;font-size:13.5px}
+  table.rt td:first-child{grid-column:1/-1;font-size:14.5px;color:var(--ink)!important}
+  table.rt td[data-l]:not(:first-child):before{content:attr(data-l);display:block;font-size:11px;color:var(--mute);font-weight:700;margin-bottom:1px}
+  table.rt td.empty,table.rt td[colspan]{grid-column:1/-1!important;text-align:center!important;color:var(--mute)!important}
+  table.rt td.act{grid-column:1/-1}
+  table.rt td.act .hide{width:100%}
+  #players tr{grid-template-columns:repeat(4,minmax(0,1fr));position:relative;padding-right:0}
+  #players td:nth-child(2),#players td:nth-child(5),#players td:nth-child(7){display:none}
+  #players td:first-child{padding-right:70px}
+  #players td.act{position:absolute;right:0;top:9px;grid-column:auto}
+  #players td.act .hide{width:auto;padding:3px 10px!important}
+  #players .vn{display:inline!important}
+  #players tr.more{display:none}
+  #pmore{display:block}
+  #recent td:nth-child(3),#outfits td:nth-child(2),#errors td:nth-child(2){order:-1;grid-column:1/-1;font-size:14.5px}
+  #recent td:nth-child(3):before,#outfits td:nth-child(2):before,#errors td:nth-child(2):before{display:none!important}
+  #recent td:first-child,#outfits td:first-child,#errors td:first-child{grid-column:auto;font-size:13px;color:var(--sub)!important}
+  .ch svg .ax{font-size:13px}
+  .funnel .row{grid-template-columns:96px minmax(0,1fr) 72px}
+  .ph,.sec .hint{font-size:12px}
+}
 .foot{color:var(--mute);font-size:12px;margin-top:30px;text-align:center}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:6px}
 .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -139,34 +178,34 @@ tr:last-child td{border-bottom:0}
 
   <main id="main">
     <div class="hero"><div class="htxt"><div class="hand hi" id="hello">어서 오세요</div><div class="hsub" id="hsub">오늘도 느림마을은 천천히 자라는 중이에요</div></div></div>
-    <div class="sec"><h2 class="hand">오늘</h2><span class="hint" id="todayHint"></span></div>
+    <div class="sec" id="s-today"><h2 class="hand">오늘</h2><span class="hint" id="todayHint"></span></div>
     <div class="grid g4" id="kpis"></div>
 
     <div class="sec"><h2 class="hand">지금까지</h2><span class="hint" id="totHint"></span></div>
     <div class="card strip" id="tot"></div>
 
-    <div class="sec"><h2 class="hand">흐름</h2><span class="hint">한국 날짜 기준 · 막대에 손가락을 대면 숫자가 보여요</span></div>
+    <div class="sec" id="s-flow"><h2 class="hand">흐름</h2><span class="hint">한국 날짜 기준 · 막대에 손가락을 대면 숫자가 보여요</span></div>
     <div class="grid g2" id="charts"></div>
 
-    <div class="sec"><h2 class="hand">마을은 얼마나 자랐나</h2><span class="hint">저장된 마을 기준 · 봇 계정 제외</span></div>
+    <div class="sec" id="s-grow"><h2 class="hand">마을은 얼마나 자랐나</h2><span class="hint">저장된 마을 기준 · 봇 계정 제외</span></div>
     <div class="grid g2">
       <div class="card funnel" id="funnel"></div>
-      <div class="card" id="cohortCard"><div class="ch"><h3>설치일별로 다시 온 사람 <span class="hint" style="color:var(--sub);font-weight:500;font-size:12px">D1·D3·D7 = 그날 다시 들어온 비율</span></h3></div><div class="tw"><table id="cohort"></table></div></div>
+      <div class="card" id="cohortCard"><div class="ch"><h3>설치일별로 다시 온 사람 <span class="hint" style="color:var(--sub);font-weight:500;font-size:12px">D1·D3·D7 = 그날 다시 들어온 비율</span></h3></div><div class="tw"><table id="cohort" class="rt"></table></div></div>
     </div>
 
-    <div class="sec"><h2 class="hand">살림살이</h2><span class="hint">스토어 판매가 기준(수수료 떼기 전) · 테스트 결제 제외</span></div>
+    <div class="sec" id="s-money"><h2 class="hand">살림살이</h2><span class="hint">스토어 판매가 기준(수수료 떼기 전) · 테스트 결제 제외</span></div>
     <div class="grid g2">
-      <div class="card"><div class="ch"><h3>상품별</h3></div><div class="tw"><table id="prod"></table></div><div class="legend" id="stores"></div></div>
-      <div class="card"><div class="ch"><h3>최근 결제</h3></div><div class="tw"><table id="recent"></table></div></div>
+      <div class="card"><div class="ch"><h3>상품별</h3></div><div class="tw"><table id="prod" class="rt"></table></div><div class="legend" id="stores"></div></div>
+      <div class="card"><div class="ch"><h3>최근 결제</h3></div><div class="tw"><table id="recent" class="rt"></table></div></div>
     </div>
 
-    <div class="sec"><h2 class="hand">주민들</h2><span class="hint">최근 들른 순 60명 · 우리 테스트 계정은 <b>숨기기</b>를 누르면 모든 숫자에서 빠져요</span><span class="sp"></span><span class="hint" id="hidN"></span></div>
-    <div class="card"><div class="tw"><table id="players"></table></div></div>
+    <div class="sec" id="s-people"><h2 class="hand">주민들</h2><span class="hint">최근 들른 순 60명 · 우리 테스트 계정은 <b>숨기기</b>를 누르면 모든 숫자에서 빠져요</span><span class="sp"></span><span class="hint" id="hidN"></span></div>
+    <div class="card"><div class="tw"><table id="players" class="rt"></table></div><button class="btn ghost full" id="pmore" style="margin-top:10px">주민 더 보기</button></div>
 
     <div class="sec"><h2 class="hand">옷 주문 · 오류</h2></div>
     <div class="grid g2">
-      <div class="card"><div class="ch"><h3>나만의 옷 주문</h3></div><div class="tw"><table id="outfits"></table></div></div>
-      <div class="card"><div class="ch"><h3>최근 7일 오류</h3></div><div class="tw"><table id="errors"></table></div></div>
+      <div class="card"><div class="ch"><h3>나만의 옷 주문</h3></div><div class="tw"><table id="outfits" class="rt"></table></div></div>
+      <div class="card"><div class="ch"><h3>최근 7일 오류</h3></div><div class="tw"><table id="errors" class="rt"></table></div></div>
     </div>
     <div class="foot">도롱도롱 느림마을 · 운영실 · 숫자는 서버 기록을 그대로 셉니다</div>
   </main>
@@ -176,6 +215,7 @@ tr:last-child td{border-bottom:0}
   <input id="po" type="password" placeholder="지금 비밀번호" autocomplete="current-password" required>
   <input id="pn" type="password" placeholder="새 비밀번호" autocomplete="new-password" required minlength="8">
   <button class="btn full" type="submit">바꾸기</button><button class="btn ghost full" type="button" id="pc" style="margin-top:8px">닫기</button><div class="err" id="perr"></div></form></div>
+<nav id="bnav"><button data-t="s-today"><img src="img/ic_new.webp" alt="">오늘</button><button data-t="s-flow"><img src="img/ic_dau.webp" alt="">흐름</button><button data-t="s-grow"><img src="img/mascot.webp" alt="">진행</button><button data-t="s-money"><img src="img/ic_rev.webp" alt="">매출</button><button data-t="s-people"><img src="img/ic_pay.webp" alt="">주민</button><button data-t="reload"><span class="rl">↻</span>새로</button></nav>
 <div class="tip" id="tip"></div>
 
 <script>
@@ -245,14 +285,19 @@ function render(){
   $('prod').innerHTML='<tr><th>상품</th><th>판매</th><th>구매자</th><th>매출</th><th>비중</th></tr>'+(pr.map(p=>`<tr><td>${esc(p.name)} <span style="color:var(--mute)">${num(p.price)}원</span></td><td>${num(p.cnt)}건</td><td>${num(p.buyers)}명</td><td><b>${won(p.rev)}</b></td><td>${Math.round(p.rev/rv*100)}%<span class="mini"><i style="width:${p.rev/rv*100}%"></i></span></td></tr>`).join('')||'<tr><td colspan="5" class="empty"><img class="emptyi" src="img/sleep.webp" alt="">아직 결제가 없어요</td></tr>');
   const st=D.stores||{};$('stores').innerHTML=Object.keys(st).length?Object.entries(st).map(([k,v])=>`<span><span class="dot" style="background:${k==='apple'?'var(--plum)':'var(--leaf)'}"></span>${k==='apple'?'앱스토어':'구글 플레이'} ${won(v)}</span>`).join(''):'';
   $('recent').innerHTML='<tr><th class="l">언제</th><th class="l">누가</th><th class="l">상품</th><th>금액</th></tr>'+((D.recent_pay||[]).map(p=>`<tr><td class="l" style="color:var(--sub)">${kt(p.at)}</td><td class="l">${esc(p.nick)}${p.vname?' <span style="color:var(--mute)">· '+esc(p.vname)+'</span>':''}</td><td class="l"><span class="tag ${p.store==='apple'?'s':'g'}">${p.store==='apple'?'iOS':'AOS'}</span> ${esc(p.name)}</td><td><b>${won(p.krw)}</b></td></tr>`).join('')||'<tr><td colspan="4" class="empty">아직 결제가 없어요</td></tr>');
-  $('players').innerHTML='<tr><th class="l">주민</th><th class="l">마을</th><th>주민 수</th><th>꿀방울</th><th>들른 날</th><th>결제</th><th class="l">처음</th><th class="l">마지막</th><th></th></tr>'+((D.players||[]).map(p=>`<tr><td class="l"><b>${esc(p.nick)}</b>${p.linked?' <span class="tag g">연동</span>':''}${p.tut<11?' <span class="tag h">튜토리얼 중</span>':''}</td><td class="l" style="color:var(--sub)">${esc(p.vname)}</td><td>${num(p.n)}</td><td>${num(p.honey)}</td><td>${num(p.days)}일</td><td>${p.spend?'<b>'+won(p.spend)+'</b>':'<span style="color:var(--mute)">–</span>'}</td><td class="l" style="color:var(--sub)">${kt(p.created)}</td><td class="l" style="color:var(--sub)">${ago(p.seen)}</td><td><button class="btn ghost hide" data-id="${p.id}" style="padding:3px 9px;font-size:12px">숨기기</button></td></tr>`).join('')||'<tr><td colspan="9" class="empty">아직 주민이 없어요</td></tr>');
+  $('players').innerHTML='<tr><th class="l">주민</th><th class="l">마을</th><th>주민 수</th><th>꿀방울</th><th>들른 날</th><th>결제</th><th class="l">처음</th><th class="l">마지막</th><th></th></tr>'+((D.players||[]).map((p,ix)=>`<tr${ix>=10?' class="more"':''}><td class="l"><b>${esc(p.nick)}</b><span class="vn" style="display:none;color:var(--mute);font-weight:500"> · ${esc(p.vname)}</span>${p.linked?' <span class="tag g">연동</span>':''}${p.tut<11?' <span class="tag h">튜토리얼 중</span>':''}</td><td class="l" style="color:var(--sub)">${esc(p.vname)}</td><td>${num(p.n)}</td><td>${num(p.honey)}</td><td>${num(p.days)}일</td><td>${p.spend?'<b>'+won(p.spend)+'</b>':'<span style="color:var(--mute)">–</span>'}</td><td class="l" style="color:var(--sub)">${kt(p.created)}</td><td class="l" style="color:var(--sub)">${ago(p.seen)}</td><td><button class="btn ghost hide" data-id="${p.id}" style="padding:3px 9px;font-size:12px">숨기기</button></td></tr>`).join('')||'<tr><td colspan="9" class="empty">아직 주민이 없어요</td></tr>');
   $('hidN').textContent=T.hidden?'숨긴 테스트 계정 '+T.hidden+'개':'';
   document.querySelectorAll('button.hide').forEach(b=>b.onclick=async()=>{b.disabled=true;b.textContent='…';try{await rpc('dv_admin_hide',{p_token:TOK,p_player:b.dataset.id,p_hide:true});}catch(_){}load();});
   const OS={new:['접수','h'],ref:['그리는 중','s'],sheets:['그리는 중','s'],raw:['그리는 중','s'],building:['만드는 중','s'],review:['확인 필요','p'],done:['완료','g'],failed:['실패','p']};
   $('outfits').innerHTML='<tr><th class="l">언제</th><th class="l">원하는 옷</th><th class="l">상태</th></tr>'+((D.outfits||[]).map(o=>{const s=OS[o.status]||[o.status,''];return `<tr><td class="l" style="color:var(--sub)">${kt(o.at)}</td><td class="l" style="white-space:normal;max-width:320px">${esc(o.style)}${o.paid==='test'?' <span class="tag">테스트</span>':''}</td><td class="l"><span class="tag ${s[1]}">${s[0]}</span></td></tr>`;}).join('')||'<tr><td colspan="3" class="empty">주문이 없어요</td></tr>');
   $('errors').innerHTML='<tr><th class="l">날짜</th><th class="l">내용</th><th>횟수</th><th>사람</th></tr>'+((D.errors||[]).map(e=>`<tr><td class="l" style="color:var(--sub)">${md(e.day)}</td><td class="l" style="white-space:normal;max-width:340px;font-size:12.5px">${esc(e.msg)}<br><span style="color:var(--mute)">${esc(e.platform||'')} ${esc(e.ver||'')}</span></td><td>${num(e.count)}</td><td>${num(e.users)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty"><img class="emptyi" src="img/sleep.webp" alt="">조용해요, 오류가 없어요</td></tr>');
+  $('pmore').hidden=(D.players||[]).length<=10;
+  labelTables();
 }
 
+function labelTables(){document.querySelectorAll('table.rt').forEach(t=>{const hs=[...(t.rows[0]?t.rows[0].cells:[])].map(c=>c.textContent.trim());[...t.rows].slice(1).forEach(r=>[...r.cells].forEach((c,i)=>{if(c.colSpan>1)return;if(hs[i])c.setAttribute('data-l',hs[i]);else c.classList.add('act');}));});}
+$('pmore').onclick=()=>{document.querySelectorAll('#players tr.more').forEach(r=>r.classList.remove('more'));$('pmore').hidden=true;};
+document.querySelectorAll('#bnav button').forEach(b=>b.onclick=()=>{const t=b.dataset.t;if(t==='reload'){load();return;}const el=$(t);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
 function chart(title,big,vals,type,color,fmt){
   const W=560,H=170,pl=6,pr=6,pt=12,pb=22,n=vals.length,mx=Math.max(1,...vals)*1.12,iw=W-pl-pr,ih=H-pt-pb,step=iw/n;
   const X=i=>pl+step*i+step/2,Y=v=>pt+ih-(v/mx)*ih;let g='';
