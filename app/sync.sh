@@ -9,7 +9,7 @@ DST="$HERE/www"
 [[ -f "$HERE/www-config/dv-config.js" ]] || { echo "ERROR: run node scripts/apply-config.mjs first" >&2; exit 1; }
 rm -rf "$DST"; mkdir -p "$DST"
 # the game and its pictures/sounds; leave out the server, the worker, the outfit templates and web-only files
-( cd "$ROOT" && tar --exclude=./app --exclude=./server --exclude=./worker --exclude=./otpl --exclude=./ota --exclude=./.git --exclude=./.github \
+( cd "$ROOT" && tar --exclude=./app --exclude=./server --exclude=./worker --exclude=./otpl --exclude=./admin --exclude=./ota --exclude=./.git --exclude=./.github \
     --exclude=./CNAME --exclude=./sw.js --exclude=./manifest.webmanifest --exclude='./ver.txt' -cf - . ) | ( cd "$DST" && tar xf - )
 cp "$HERE/www-config/dv-config.js" "$DST/dv-config.js"
 cp "$HERE/native/native.js" "$DST/native.js"
