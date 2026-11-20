@@ -1,6 +1,14 @@
 {
  "all": [
   {
+   "ota": 9,
+   "url": "https://dorong.laboon.online/ota/m/9.json",
+   "sha256": "e4a9ad770c370ab2c8885175ec6ab7d738b6648b158305d22557367f622a1444",
+   "min_native": "1.0.1",
+   "max_native": "1.0.1",
+   "at": "2026-11-20T07:18:14.948Z"
+  },
+  {
    "ota": 8,
    "url": "https://dorong.laboon.online/ota/m/8.json",
    "sha256": "f3b9bb3aae7ef92da576e35bc74ae87bcdccafc915819025c13ca43b3b799c67",
