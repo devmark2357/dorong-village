@@ -142,6 +142,26 @@ tr:last-child td{border-bottom:0}
   .funnel .row{grid-template-columns:96px minmax(0,1fr) 72px}
   .ph,.sec .hint{font-size:12px}
 }
+
+.iq{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:12px;background:#fffdf8}
+.iq.open{border-color:#f2c9a0;background:#fffaf1}
+.iq .top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--sub)}
+.iq .top b{color:var(--ink);font-size:14px}
+.iq .body{margin:8px 0;white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.55}
+.iq .env{font-size:11.5px;color:var(--mute);line-height:1.5}
+.iq .ans{margin-top:10px;padding:9px 11px;border-radius:12px;background:var(--honeySoft);border-left:3px solid var(--honey);white-space:pre-wrap;word-break:break-word;font-size:14px}
+.iq .ans small{display:block;color:#a26b0c;font-size:11.5px;margin-bottom:3px}
+.iq textarea{width:100%;min-height:96px;margin-top:10px;padding:10px 12px;border:1.5px solid var(--line2);border-radius:12px;background:#fff;font:inherit;font-size:14px;resize:vertical;outline:none}
+.iq textarea:focus{border-color:var(--honey);box-shadow:0 0 0 3px var(--honeySoft)}
+.iq .tpl{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.iq .tpl button{border:1.5px solid var(--line2);background:#fff;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;color:var(--sub);cursor:pointer}
+.iq .acts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+#iqTabs button .n{margin-left:3px;color:var(--bad);font-weight:800}
+#bnav .bq{position:relative}
+#bnav #iqBadge{position:absolute;top:0;right:calc(50% - 22px);min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--bad);color:#fff;font-size:10.5px;font-style:normal;font-weight:800;line-height:17px}
+#bnav #iqBadge[hidden]{display:none}
+.hq[hidden]{display:none}
+.hq{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:999px;background:#fde4e4;color:var(--bad);font-weight:800;font-size:13px;cursor:pointer;border:0}
 .foot{color:var(--mute);font-size:12px;margin-top:30px;text-align:center}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:6px}
 .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -202,6 +222,8 @@ tr:last-child td{border-bottom:0}
     <div class="sec" id="s-people"><h2 class="hand">주민들</h2><span class="hint">최근 들른 순 60명 · 우리 테스트 계정은 <b>숨기기</b>를 누르면 모든 숫자에서 빠져요</span><span class="sp"></span><span class="hint" id="hidN"></span></div>
     <div class="card"><div class="tw"><table id="players" class="rt"></table></div><button class="btn ghost full" id="pmore" style="margin-top:10px">주민 더 보기</button></div>
 
+    <div class="sec" id="s-inq"><h2 class="hand">고객센터</h2><span class="hint">앱 옵션 → 문의하기로 들어온 글 · 답변은 앱 문의 화면에 바로 보여요</span></div>
+    <div class="card"><div class="seg" id="iqTabs" style="display:inline-flex;margin-bottom:10px"><button data-s="open" class="on">대기</button><button data-s="answered">답변함</button><button data-s="closed">닫힘</button><button data-s="all">전체</button></div><div id="iqList"><div class="empty">불러오는 중…</div></div></div>
     <div class="sec"><h2 class="hand">옷 주문 · 오류</h2></div>
     <div class="grid g2">
       <div class="card"><div class="ch"><h3>나만의 옷 주문</h3></div><div class="tw"><table id="outfits" class="rt"></table></div></div>
@@ -215,7 +237,7 @@ tr:last-child td{border-bottom:0}
   <input id="po" type="password" placeholder="지금 비밀번호" autocomplete="current-password" required>
   <input id="pn" type="password" placeholder="새 비밀번호" autocomplete="new-password" required minlength="8">
   <button class="btn full" type="submit">바꾸기</button><button class="btn ghost full" type="button" id="pc" style="margin-top:8px">닫기</button><div class="err" id="perr"></div></form></div>
-<nav id="bnav"><button data-t="s-today"><img src="img/ic_new.webp" alt="">오늘</button><button data-t="s-flow"><img src="img/ic_dau.webp" alt="">흐름</button><button data-t="s-grow"><img src="img/mascot.webp" alt="">진행</button><button data-t="s-money"><img src="img/ic_rev.webp" alt="">매출</button><button data-t="s-people"><img src="img/ic_pay.webp" alt="">주민</button><button data-t="reload"><span class="rl">↻</span>새로</button></nav>
+<nav id="bnav"><button data-t="s-today"><img src="img/ic_new.webp" alt="">오늘</button><button data-t="s-flow"><img src="img/ic_dau.webp" alt="">흐름</button><button data-t="s-money"><img src="img/ic_rev.webp" alt="">매출</button><button data-t="s-people"><img src="img/ic_pay.webp" alt="">주민</button><button data-t="s-inq" class="bq"><img src="img/mascot.webp" alt="">문의<i id="iqBadge" hidden></i></button><button data-t="reload"><span class="rl">↻</span>새로</button></nav>
 <div class="tip" id="tip"></div>
 
 <script>
@@ -244,10 +266,35 @@ $('pf').onsubmit=async e=>{e.preventDefault();const r=await rpc('dv_admin_passwd
 [...$('range').children].forEach(b=>{b.classList.toggle('on',+b.dataset.d===DAYS);b.onclick=()=>{DAYS=+b.dataset.d;try{localStorage.setItem('dvAdmDays',DAYS);}catch(_){}[...$('range').children].forEach(x=>x.classList.toggle('on',x===b));load();};});
 $('reload').onclick=()=>load();
 
+
+const IQ_T={hi:'안녕하세요, 도롱도롱 느림마을 운영팀이에요. 문의 남겨 주셔서 고마워요.\n\n',pay:'결제 기록을 확인해 보니 정상으로 들어와 있어요. 앱을 완전히 껐다가 다시 켜면 반영돼요. 그래도 안 보이면 이 화면에 다시 남겨 주세요.\n',bug:'말씀해 주신 문제를 확인했어요. 다음 업데이트에서 고칠게요. 불편을 드려 죄송해요.\n',idea:'좋은 의견 고마워요! 다음 업데이트를 준비할 때 꼭 참고할게요.\n',bye:'\n오늘도 느림마을에서 포근한 시간 보내세요 🌿'};
+let IQS='open';
+async function loadInq(){try{const r=await rpc('dv_admin_inq',{p_token:TOK,p_status:IQS});if(!r.ok)return;renderInq(r);}catch(e){$('iqList').innerHTML='<div class="empty">불러오지 못했어요</div>';}}
+function renderInq(r){const c=r.counts||{};
+  [...$('iqTabs').children].forEach(b=>{b.classList.toggle('on',b.dataset.s===IQS);const base={open:'대기',answered:'답변함',closed:'닫힘',all:'전체'}[b.dataset.s];b.innerHTML=base+(b.dataset.s==='open'&&c.open?'<span class="n">'+c.open+'</span>':'');});
+  $('iqBadge').hidden=!c.open;$('iqBadge').textContent=c.open||'';
+  const L=r.items||[];
+  if(!L.length){$('iqList').innerHTML='<div class="empty"><img class="emptyi" src="img/sleep.webp" alt="">'+(IQS==='open'?'기다리는 문의가 없어요':'문의가 없어요')+'</div>';return;}
+  $('iqList').innerHTML=L.map(q=>{const e=q.env||{},st={open:['대기','p'],answered:['답변함','g'],closed:['닫힘','']}[q.status]||[q.status,''];
+    const buys=(q.buys||[]).slice(0,4).map(b=>esc(b.name)+(b.test?'(테스트)':'')).join(', ');
+    return `<div class="iq ${q.status}" data-id="${q.id}"><div class="top"><span class="tag ${st[1]}">${st[0]}</span><span class="tag h">${esc(q.cat)}</span><b>${esc(q.nick)}</b><span>${esc(q.vname||'')}</span><span>· #${q.id} · ${kt(q.at)}</span></div>
+      <div class="body">${esc(q.body)}</div>
+      <div class="env">${esc(e.plat||'')} 앱 ${esc(e.app||'-')} · 업데이트 ${esc(e.ota||'-')} · 주민 ${num(q.n)}명 · 꿀방울 ${num(e.honey)} · 튜토리얼 ${(+e.tut||0)>=11?'끝':'중'}${q.spend?' · 결제 <b style="color:var(--ink)">'+won(q.spend)+'</b>':''}${buys?' · 구매: '+buys:''}</div>
+      ${q.reply?`<div class="ans"><small>답변 · ${esc(q.replied_by||'')} · ${kt(q.replied_at)}${q.seen?' · 읽음':' · 아직 안 읽음'}</small>${esc(q.reply)}</div>`:''}
+      <textarea placeholder="${q.reply?'답변 고치기 (보내면 새 답변으로 바뀌어요)':'답변 (앱 문의 화면에 바로 보여요)'}"></textarea>
+      <div class="tpl"><button data-k="hi">+ 인사</button><button data-k="pay">+ 결제 확인</button><button data-k="bug">+ 버그 접수</button><button data-k="idea">+ 제안 감사</button><button data-k="bye">+ 마무리</button></div>
+      <div class="acts"><button class="btn send">답변 보내기</button>${q.status!=='closed'?'<button class="btn ghost close">답변 없이 닫기</button>':'<button class="btn ghost reopen">다시 열기</button>'}</div></div>`;}).join('');
+  $('iqList').querySelectorAll('.iq').forEach(el=>{const id=+el.dataset.id,ta=el.querySelector('textarea');
+    el.querySelectorAll('.tpl button').forEach(b=>b.onclick=()=>{const t=IQ_T[b.dataset.k];if(b.dataset.k==='hi')ta.value=t+ta.value;else ta.value+=t;ta.focus();});
+    el.querySelector('.send').onclick=async e=>{const v=ta.value.trim();if(!v){ta.focus();return;}e.target.disabled=true;e.target.textContent='보내는 중…';await rpc('dv_admin_inq_reply',{p_token:TOK,p_id:id,p_reply:v,p_status:'answered'});loadInq();load();};
+    const cl=el.querySelector('.close');if(cl)cl.onclick=async()=>{await rpc('dv_admin_inq_reply',{p_token:TOK,p_id:id,p_reply:'',p_status:'closed'});loadInq();};
+    const ro=el.querySelector('.reopen');if(ro)ro.onclick=async()=>{await rpc('dv_admin_inq_reply',{p_token:TOK,p_id:id,p_reply:'',p_status:'open'});loadInq();};});
+}
+[...document.querySelectorAll('#iqTabs button')].forEach(b=>b.onclick=()=>{IQS=b.dataset.s;loadInq();});
 async function load(){
   $('main').classList.add('loading');
   try{const r=await rpc('dv_admin_dash',{p_token:TOK,p_days:DAYS});
-    if(!r.ok){showLogin();return;}D=r;render();}
+    if(!r.ok){showLogin();return;}D=r;render();loadInq();}
   catch(e){$('stamp').textContent='불러오지 못했어요 · '+e.message;}
   finally{$('main').classList.remove('loading');}
 }
@@ -259,6 +306,7 @@ function render(){
   $('whoami').textContent=D.who+' 님';
   const hr=+new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul',hour:'numeric',hour12:false});
   $('hello').textContent=(hr<11?'좋은 아침이에요':hr<17?'좋은 오후예요':hr<21?'좋은 저녁이에요':'포근한 밤이에요')+', '+D.who+' 님';
+  setTimeout(()=>{const h=document.querySelector('.htxt');let q=$('hq');if(!q){q=document.createElement('button');q.id='hq';q.className='hq';q.onclick=()=>$('s-inq').scrollIntoView({behavior:'smooth'});h.appendChild(q);}q.hidden=!D.inq_open;q.textContent='💌 답변 기다리는 문의 '+(D.inq_open||0)+'건';},0);
   $('hsub').innerHTML='출시('+md(D.launch||D.today)+') 이후 주민 <b>'+num(D.total.users)+'명</b>이 마을에 왔고, 오늘은 <b>'+num(t.new)+'명</b>이 새로 들어왔어요.';
   $('stamp').textContent=kt(D.now)+' 기준 · 들어올 때 한 번 불러와요';
   $('todayHint').textContent=md(D.today)+'('+wk(D.today)+') 0시부터 지금까지 · 비교는 어제 같은 하루 전체';
