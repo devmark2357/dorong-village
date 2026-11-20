@@ -34,12 +34,23 @@
     if (has('FbEvents')) call('FbEvents', 'logPurchase', { amount: krw, currency: 'KRW', params: { fb_content_id: sku } }).catch(function () {});
   };
   // first launch: where the install came from (Android)
-  if (!ls('dv_ref') && PLAT === 'android' && has('InstallReferrer')) {
+  // dv_src = {src: google|meta|organic|other, utm_*, raw} — the game sends it to the server once
+  DVN.srcOf = function (q) {
+    q = String(q || ''); var l = q.toLowerCase();
+    try { l += ' ' + decodeURIComponent(q).toLowerCase(); } catch (_) {}
+    if (/gclid|gbraid|wbraid|utm_source=google(?!-play)|adwords|googleads/.test(l)) return 'google';
+    if (/facebook|fb4a|instagram|apps\.facebook\.com|utm_source=fb|meta/.test(l)) return 'meta';
+    if (!q || /utm_medium=organic|\(not%20set\)|\(not set\)/.test(l) || /^utm_source=google-play&utm_medium=organic/.test(l)) return 'organic';
+    return 'other';
+  };
+  if (!ls('dv_src') && PLAT === 'android' && has('InstallReferrer')) {
     call('InstallReferrer', 'get').then(function (r) {
-      ls('dv_ref', '1');
       var q = String((r && r.referrer) || ''), p = {};
-      q.split('&').forEach(function (kv) { var a = kv.split('='); if (/^utm_(source|medium|campaign)$/.test(a[0])) p[a[0]] = decodeURIComponent(a[1] || '').slice(0, 90); });
-      DVN.ev('install_referrer', p);
+      q.split('&').forEach(function (kv) { var a = kv.split('='); if (/^utm_(source|medium|campaign|content)$/.test(a[0])) { try { p[a[0]] = decodeURIComponent(a[1] || '').slice(0, 90); } catch (_) { p[a[0]] = String(a[1] || '').slice(0, 90); } } });
+      var o = { src: DVN.srcOf(q), raw: q.slice(0, 600), clickTs: (r && r.clickTs) || 0, installTs: (r && r.installTs) || 0 };
+      Object.keys(p).forEach(function (k) { o[k] = p[k]; });
+      ls('dv_src', JSON.stringify(o));
+      if (!ls('dv_ref')) { ls('dv_ref', '1'); p.src = o.src; DVN.ev('install_referrer', p); }
     }).catch(function () {});
   }
 

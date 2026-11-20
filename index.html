@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795184382";</script></head><body>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795216755";</script></head><body>
 <meta charset="utf-8">
 <title>도롱도롱 느림마을</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1890,6 +1890,10 @@ document.getElementById('inqSend').onclick=function(){var tx=document.getElement
     if(!r||!r.ok){var cd=r&&r.code;toast(cd==='limit'?__T('오늘은 문의를 더 보낼 수 없어요. 내일 다시 보내 주세요'):cd==='short'?__T('내용을 조금 더 적어 주세요'):__T('보내지 못했어요. 잠시 뒤 다시 해 주세요'));return;}tx.value='';document.getElementById('inqCnt').textContent='0 / 1000';toast(__T('문의를 보냈어요 · 답변이 오면 알려 드릴게요'));inqLoad(false);})
   .catch(function(){INQ.busy=false;toast(__T('인터넷에 연결된 뒤 다시 보내 주세요'));});};
 setTimeout(function(){try{socReady().then(function(){if(SOC.mode==='live')inqLoad(false);}).catch(function(){});}catch(_){}},9000);
+// install source (Android referrer, read by native.js) → server once
+function srcSend(){try{var raw=localStorage.getItem('dv_src');if(!raw||localStorage.getItem('dv_src_sent')||!tok())return;var o=JSON.parse(raw);rpcLive('dv_set_src',{p_token:tok(),p_src:o.src||'other',p_ref:o}).then(function(r){if(r&&r.ok)try{localStorage.setItem('dv_src_sent','1');}catch(_){}}).catch(function(){});}catch(_){}}
+setTimeout(function(){try{socReady().then(function(){if(SOC.mode==='live')srcSend();}).catch(function(){});}catch(_){}},12000);
+setTimeout(function(){try{if(SOC.mode==='live')srcSend();}catch(_){}},60000);
 document.getElementById('bDel').onclick=function(){sfx('tap');delOpen();};
 document.getElementById('delX').onclick=function(){sfx('tap');document.getElementById('del').classList.remove('on');};
 
