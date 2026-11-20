@@ -111,7 +111,7 @@ tr:last-child td{border-bottom:0}
 @media(max-width:640px){
   main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .sec{scroll-margin-top:64px}
-  #bnav{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:8;background:rgba(255,253,248,.96);backdrop-filter:blur(10px);border:1.5px solid var(--line);border-radius:22px;box-shadow:0 10px 26px -12px rgba(120,90,40,.45);padding:6px 4px}
+  #bnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:8;background:rgba(255,253,248,.96);backdrop-filter:blur(10px);border:1.5px solid var(--line);border-radius:22px;box-shadow:0 10px 26px -12px rgba(120,90,40,.45);padding:6px 4px}
   #bnav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--sub);padding:4px 0;cursor:pointer;border-radius:14px}
   #bnav button img{width:26px;height:26px;object-fit:contain}
   #bnav button .rl{font-size:20px;line-height:26px;color:var(--honey)}
@@ -159,10 +159,42 @@ tr:last-child td{border-bottom:0}
 .iq .acts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 #iqTabs button .n{margin-left:3px;color:var(--bad);font-weight:800}
 #bnav .bq{position:relative}
-#bnav #iqBadge{position:absolute;top:0;right:calc(50% - 22px);min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--bad);color:#fff;font-size:10.5px;font-style:normal;font-weight:800;line-height:17px}
-#bnav #iqBadge[hidden]{display:none}
+#bnav .eico{font-size:22px;line-height:26px}
+#bnav #erBadge,#bnav #iqBadge{position:absolute;top:0;right:calc(50% - 22px);min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--bad);color:#fff;font-size:10.5px;font-style:normal;font-weight:800;line-height:17px}
+#bnav #iqBadge[hidden],#bnav #erBadge[hidden]{display:none}
+#bnav button.on{background:var(--honeySoft);color:#a26b0c}
 .hq[hidden]{display:none}
 .hq{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:999px;background:#fde4e4;color:var(--bad);font-weight:800;font-size:13px;cursor:pointer;border:0}
+
+#side{display:none}
+@media(min-width:900px){
+  #app{display:grid!important;grid-template-columns:232px minmax(0,1fr)}
+  #app[style*="none"]{display:none!important}
+  #side{display:flex;flex-direction:column;position:sticky;top:0;height:100vh;background:#fffaf0;border-right:1.5px solid var(--line);padding:18px 14px}
+  .sbrand{display:flex;align-items:center;gap:10px;padding:4px 6px 18px}
+  .sbrand img{width:52px;height:auto}
+  .sbrand b{display:block;font-size:24px;line-height:1}
+  .sbrand small{color:var(--sub);font-size:12px}
+  .snav{display:flex;flex-direction:column;gap:4px}
+  .snav button{position:relative;display:flex;align-items:center;gap:10px;border:0;background:none;padding:10px 12px;border-radius:14px;font-weight:700;color:var(--sub);cursor:pointer;text-align:left;font-size:14.5px}
+  .snav button img{width:28px;height:28px;object-fit:contain}
+  .snav button .eico{width:28px;text-align:center;font-size:20px}
+  .snav button:hover{background:#fbf2df}
+  .snav button.on{background:var(--honeySoft);color:#8a5a0a}
+  .sb{margin-left:auto;min-width:22px;height:22px;padding:0 7px;border-radius:11px;background:var(--bad);color:#fff;font-style:normal;font-size:12px;font-weight:800;line-height:22px;text-align:center}
+  .sb[hidden]{display:none}
+  .sfoot{margin-top:auto;color:var(--mute);font-size:12px;padding:8px 10px}
+  .hin>img,.hin h1{display:none}
+}
+.erow{border:1.5px solid var(--line);border-radius:16px;background:#fffdf8;margin-bottom:10px;overflow:hidden}
+.erow summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:start}
+.erow summary::-webkit-details-marker{display:none}
+.erow .em{font-weight:700;word-break:break-word;font-size:14px}
+.erow .es{grid-column:1/-1;font-size:12px;color:var(--sub)}
+.erow .en{text-align:right;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.erow .en small{display:block;font-size:11px;color:var(--sub);font-weight:600}
+.erow pre{margin:0;padding:10px 14px 14px;font-size:11.5px;white-space:pre-wrap;word-break:break-all;color:#6b5a48;background:#fbf6ec;border-top:1px dashed var(--line);max-height:320px;overflow:auto}
+.okbox{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px;color:var(--sub);background:#f2f8ee;border:1.5px solid #d8ead0;border-radius:16px}
 .foot{color:var(--mute);font-size:12px;margin-top:30px;text-align:center}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:6px}
 .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -187,6 +219,17 @@ tr:last-child td{border-bottom:0}
 </div>
 
 <div id="app">
+  <aside id="side">
+    <div class="sbrand"><img src="img/mascot.webp" alt=""><div><b class="hand">도롱도롱</b><small>운영실</small></div></div>
+    <nav class="snav">
+      <button data-v="dash"><img src="img/ic_dau.webp" alt=""><span>대시보드</span></button>
+      <button data-v="inq"><img src="img/ic_pay.webp" alt=""><span>고객센터</span><i class="sb" id="sbInq" hidden></i></button>
+      <button data-v="err"><span class="eico">🩹</span><span>오류</span><i class="sb" id="sbErr" hidden></i></button>
+      <button data-v="people"><img src="img/ic_new.webp" alt=""><span>주민</span></button>
+    </nav>
+    <div class="sfoot" id="sWho"></div>
+  </aside>
+  <div id="content">
   <header><div class="hin">
     <img src="../icon-192.png" alt="">
     <div><h1 class="hand">도롱도롱 운영실</h1><small id="stamp">불러오는 중…</small></div>
@@ -198,6 +241,7 @@ tr:last-child td{border-bottom:0}
   </div></header>
 
   <main id="main">
+  <section class="view" data-v="dash">
     <div class="hero"><div class="htxt"><div class="hand hi" id="hello">어서 오세요</div><div class="hsub" id="hsub">오늘도 느림마을은 천천히 자라는 중이에요</div></div></div>
     <div class="sec" id="s-today"><h2 class="hand">오늘</h2><span class="hint" id="todayHint"></span></div>
     <div class="grid g4" id="kpis"></div>
@@ -220,25 +264,40 @@ tr:last-child td{border-bottom:0}
       <div class="card"><div class="ch"><h3>최근 결제</h3></div><div class="tw"><table id="recent" class="rt"></table></div></div>
     </div>
 
+    <div class="sec"><h2 class="hand">옷 주문</h2></div>
+    <div class="card"><div class="tw"><table id="outfits" class="rt"></table></div></div>
+    <table id="errors" class="rt" hidden></table>
+  </section>
+  <section class="view" data-v="inq" hidden>
+    <div class="sec" id="s-inq"><h2 class="hand">고객센터</h2><span class="hint">앱 옵션 → 문의하기로 들어온 글 · 답변은 앱 문의 화면에 바로 보여요</span></div>
+    <div class="card"><div class="seg" id="iqTabs" style="display:inline-flex;margin-bottom:10px"><button data-s="open" class="on">대기</button><button data-s="answered">답변함</button><button data-s="closed">닫힘</button><button data-s="all">전체</button></div><div id="iqList"><div class="empty">불러오는 중…</div></div></div>
+  </section>
+  <section class="view" data-v="err" hidden>
+    <div class="sec" id="s-err"><h2 class="hand">오류 살피기</h2><span class="hint">게임에서 난 오류가 자동으로 모여요 · 같은 오류는 한 줄로 묶어요 · 누르면 자세히</span><span class="sp"></span><div class="seg" id="erRange"><button data-d="1">오늘</button><button data-d="7" class="on">7일</button><button data-d="30">30일</button></div></div>
+    <div class="grid g4" id="erKpi"></div>
+    <div class="card ch" id="erChart" style="margin-top:12px"></div>
+    <div class="sec"><h2 class="hand">오류 묶음</h2><span class="hint">많이 난 순 · 사람 수 = 그 오류를 겪은 주민 수</span></div>
+    <div id="erList"><div class="empty">불러오는 중…</div></div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="ch"><h3>기기별</h3></div><div class="tw"><table id="erDev" class="rt"></table></div></div>
+      <div class="card"><div class="ch"><h3>버전별</h3></div><div class="tw"><table id="erVer" class="rt"></table></div></div>
+    </div>
+  </section>
+  <section class="view" data-v="people" hidden>
     <div class="sec" id="s-people"><h2 class="hand">주민들</h2><span class="hint">최근 들른 순 60명 · #코드는 게임 속 친구 코드(옵션에서 보여요) · 닉네임을 안 바꾼 사람은 '주민'으로 보여요 · 우리 테스트 계정은 <b>숨기기</b>를 누르면 모든 숫자에서 빠져요</span><span class="sp"></span><span class="hint" id="hidN"></span></div>
     <div class="card"><div class="tw"><table id="players" class="rt"></table></div><button class="btn ghost full" id="pmore" style="margin-top:10px">주민 더 보기</button></div>
 
-    <div class="sec" id="s-inq"><h2 class="hand">고객센터</h2><span class="hint">앱 옵션 → 문의하기로 들어온 글 · 답변은 앱 문의 화면에 바로 보여요</span></div>
-    <div class="card"><div class="seg" id="iqTabs" style="display:inline-flex;margin-bottom:10px"><button data-s="open" class="on">대기</button><button data-s="answered">답변함</button><button data-s="closed">닫힘</button><button data-s="all">전체</button></div><div id="iqList"><div class="empty">불러오는 중…</div></div></div>
-    <div class="sec"><h2 class="hand">옷 주문 · 오류</h2></div>
-    <div class="grid g2">
-      <div class="card"><div class="ch"><h3>나만의 옷 주문</h3></div><div class="tw"><table id="outfits" class="rt"></table></div></div>
-      <div class="card"><div class="ch"><h3>최근 7일 오류</h3></div><div class="tw"><table id="errors" class="rt"></table></div></div>
-    </div>
+  </section>
     <div class="foot">도롱도롱 느림마을 · 운영실 · 숫자는 서버 기록을 그대로 셉니다</div>
   </main>
+  </div>
 </div>
 
 <div id="pw"><form class="lbox" id="pf"><h1 class="hand" style="font-size:26px">비밀번호 바꾸기</h1><p>새 비밀번호는 8자 이상이에요</p>
   <input id="po" type="password" placeholder="지금 비밀번호" autocomplete="current-password" required>
   <input id="pn" type="password" placeholder="새 비밀번호" autocomplete="new-password" required minlength="8">
   <button class="btn full" type="submit">바꾸기</button><button class="btn ghost full" type="button" id="pc" style="margin-top:8px">닫기</button><div class="err" id="perr"></div></form></div>
-<nav id="bnav"><button data-t="s-today"><img src="img/ic_new.webp" alt="">오늘</button><button data-t="s-flow"><img src="img/ic_dau.webp" alt="">흐름</button><button data-t="s-money"><img src="img/ic_rev.webp" alt="">매출</button><button data-t="s-people"><img src="img/ic_pay.webp" alt="">주민</button><button data-t="s-inq" class="bq"><img src="img/mascot.webp" alt="">문의<i id="iqBadge" hidden></i></button><button data-t="reload"><span class="rl">↻</span>새로</button></nav>
+<nav id="bnav"><button data-v="dash"><img src="img/ic_dau.webp" alt="">대시보드</button><button data-v="inq" class="bq"><img src="img/ic_pay.webp" alt="">고객센터<i id="iqBadge" hidden></i></button><button data-v="err" class="bq"><span class="eico">🩹</span>오류<i id="erBadge" class="bb" hidden></i></button><button data-v="people"><img src="img/ic_new.webp" alt="">주민</button><button data-t="reload"><span class="rl">↻</span>새로</button></nav>
 <div class="tip" id="tip"></div>
 
 <script>
@@ -275,7 +334,7 @@ let IQS='open';
 async function loadInq(){try{const r=await rpc('dv_admin_inq',{p_token:TOK,p_status:IQS});if(!r.ok)return;renderInq(r);}catch(e){$('iqList').innerHTML='<div class="empty">불러오지 못했어요</div>';}}
 function renderInq(r){const c=r.counts||{};
   [...$('iqTabs').children].forEach(b=>{b.classList.toggle('on',b.dataset.s===IQS);const base={open:'대기',answered:'답변함',closed:'닫힘',all:'전체'}[b.dataset.s];b.innerHTML=base+(b.dataset.s==='open'&&c.open?'<span class="n">'+c.open+'</span>':'');});
-  $('iqBadge').hidden=!c.open;$('iqBadge').textContent=c.open||'';
+  $('iqBadge').hidden=!c.open;$('iqBadge').textContent=c.open||'';if($('sbInq')){$('sbInq').hidden=!c.open;$('sbInq').textContent=c.open||'';}
   const L=r.items||[];
   if(!L.length){$('iqList').innerHTML='<div class="empty"><img class="emptyi" src="img/sleep.webp" alt="">'+(IQS==='open'?'기다리는 문의가 없어요':'문의가 없어요')+'</div>';return;}
   $('iqList').innerHTML=L.map(q=>{const e=q.env||{},st={open:['대기','p'],answered:['답변함','g'],closed:['닫힘','']}[q.status]||[q.status,''];
@@ -294,10 +353,34 @@ function renderInq(r){const c=r.counts||{};
     const ro=el.querySelector('.reopen');if(ro)ro.onclick=async()=>{await rpc('dv_admin_inq_reply',{p_token:TOK,p_id:id,p_reply:'',p_status:'open'});loadInq();};});
 }
 [...document.querySelectorAll('#iqTabs button')].forEach(b=>b.onclick=()=>{IQS=b.dataset.s;loadInq();});
+
+let VIEW='dash',ERD=7;
+function go(v,push){if(!['dash','inq','err','people'].includes(v))v='dash';VIEW=v;
+  document.querySelectorAll('.view').forEach(x=>x.hidden=x.dataset.v!==v);
+  document.querySelectorAll('#side [data-v],#bnav [data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  $('range').style.visibility=v==='dash'?'':'hidden';
+  if(push!==false){try{history.replaceState(null,'','#'+v);}catch(_){}}
+  window.scrollTo(0,0);if(v==='inq')loadInq();if(v==='err')loadErr();}
+document.querySelectorAll('#side [data-v],#bnav [data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
+window.addEventListener('hashchange',()=>go(location.hash.slice(1),false));
+[...document.querySelectorAll('#erRange button')].forEach(b=>b.onclick=()=>{ERD=+b.dataset.d;[...$('erRange').children].forEach(x=>x.classList.toggle('on',x===b));loadErr();});
+function setBadges(){const n=D&&D.err_today||0;['sbErr','erBadge'].forEach(id=>{const el=$(id);if(el){el.hidden=!n;el.textContent=n>99?'99+':n;}});}
+async function loadErr(){try{const r=await rpc('dv_admin_err',{p_token:TOK,p_days:ERD});if(!r||!r.ok){$('erList').innerHTML='<div class="empty">'+(r&&r.err==='auth'?'다시 로그인해 주세요':'오류 기록을 불러오지 못했어요')+'</div>';return;}renderErr(r);}catch(e){$('erList').innerHTML='<div class="empty">오류 기록을 아직 볼 수 없어요 · 서버 준비 중이에요</div>';}}
+function renderErr(r){
+  const K=[['오늘 오류',num(r.today_n)+'<small>건</small>','var(--bad)'],['기간 오류',num(r.total)+'<small>건</small>','var(--honey)'],['겪은 주민',num(r.users)+'<small>명</small>','var(--sky)'],['오류 종류',num((r.groups||[]).length)+'<small>가지</small>','var(--plum)']];
+  $('erKpi').innerHTML=K.map(k=>`<div class="card kpi"><div class="lab"><span class="dot" style="background:${k[2]}"></span>${k[0]}</div><div class="v">${k[1]}</div></div>`).join('');
+  const dl=r.daily||[];const days=dl.map(x=>x.day);
+  if(dl.length>1){const save=D;D=Object.assign({},D||{},{daily:dl});$('erChart').outerHTML=chart('날짜별 오류','합계 '+num(r.total)+'건',dl.map(x=>x.n),'bar','#df6b6b',v=>num(v)+'건').replace('<div class="card ch">','<div class="card ch" id="erChart" style="margin-top:12px">');D=save;bindTips();}
+  else $('erChart').innerHTML='<div class="ch"><h3><span>오늘 오류</span><b>'+num(r.today_n)+'건</b></h3></div>';
+  const G=r.groups||[];
+  $('erList').innerHTML=G.length?G.map(g=>`<details class="erow"><summary><div><span class="tag ${g.kind==='error'?'p':g.kind==='loop'?'h':'s'}">${esc(g.kind)}</span> <span class="em">${esc(g.msg||'(내용 없음)')}</span></div><div class="en">${num(g.n)}<small>${num(g.users)}명 · ${g.days}일</small></div><div class="es">${esc((g.plat||[]).join('/'))} · ${esc((g.vers||[]).join(', '))} · 화면 ${esc(g.screen||'-')} · ${esc((g.models||[]).join(', '))}<br>처음 ${kt(g.first)} · 마지막 ${kt(g.last)}</div></summary><pre>${esc(g.stack||'(스택 없음)')}${g.extra&&Object.keys(g.extra).length?'\n\nextra: '+esc(JSON.stringify(g.extra)):''}</pre></details>`).join(''):'<div class="okbox"><img class="emptyi" src="img/sleep.webp" alt=""><b>조용해요 · 이 기간에 오류가 없어요</b><span>게임에서 오류가 나면 여기 자동으로 모여요</span></div>';
+  $('erDev').innerHTML='<tr><th>기기</th><th>OS</th><th>건수</th><th>종류</th></tr>'+((r.devices||[]).map(d=>`<tr><td>${esc(d.model)}</td><td>${esc(d.os||d.plat||'')}</td><td>${num(d.n)}</td><td>${num(d.g)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">없어요</td></tr>');
+  $('erVer').innerHTML='<tr><th>게임 버전</th><th>앱</th><th>건수</th><th>종류</th></tr>'+((r.versions||[]).map(d=>`<tr><td>${esc(d.ver)}${d.ota&&d.ota!=='0'?' · ota '+esc(d.ota):''}</td><td>${esc(d.app||'')}</td><td>${num(d.n)}</td><td>${num(d.g)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">없어요</td></tr>');
+  labelTables();}
 async function load(){
   $('main').classList.add('loading');
   try{const r=await rpc('dv_admin_dash',{p_token:TOK,p_days:DAYS});
-    if(!r.ok){showLogin();return;}D=r;render();loadInq();}
+    if(!r.ok){showLogin();return;}D=r;render();setBadges();loadInq();if(VIEW==='err')loadErr();}
   catch(e){$('stamp').textContent='불러오지 못했어요 · '+e.message;}
   finally{$('main').classList.remove('loading');}
 }
@@ -306,10 +389,10 @@ function chg(a,b){if(!b){return a?'<span class="chip up">새로</span>':'<span c
 function render(){
   const dl=D.daily,t=dl[dl.length-1],y=dl[dl.length-2]||{},w=dl.slice(-8,-1);
   const avg=k=>w.length?w.reduce((s,x)=>s+(x[k]||0),0)/w.length:0;
-  $('whoami').textContent=D.who+' 님';
+  $('whoami').textContent=D.who+' 님';if($('sWho'))$('sWho').textContent=D.who+' 님으로 들어와 있어요';
   const hr=+new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul',hour:'numeric',hour12:false});
   $('hello').textContent=(hr<11?'좋은 아침이에요':hr<17?'좋은 오후예요':hr<21?'좋은 저녁이에요':'포근한 밤이에요')+', '+D.who+' 님';
-  setTimeout(()=>{const h=document.querySelector('.htxt');let q=$('hq');if(!q){q=document.createElement('button');q.id='hq';q.className='hq';q.onclick=()=>$('s-inq').scrollIntoView({behavior:'smooth'});h.appendChild(q);}q.hidden=!D.inq_open;q.textContent='💌 답변 기다리는 문의 '+(D.inq_open||0)+'건';},0);
+  setTimeout(()=>{const h=document.querySelector('.htxt');let q=$('hq');if(!q){q=document.createElement('button');q.id='hq';q.className='hq';q.onclick=()=>go('inq');h.appendChild(q);}q.hidden=!D.inq_open;q.textContent='💌 답변 기다리는 문의 '+(D.inq_open||0)+'건';},0);
   $('hsub').innerHTML='출시('+md(D.launch||D.today)+') 이후 주민 <b>'+num(D.total.users)+'명</b>이 마을에 왔고, 오늘은 <b>'+num(t.new)+'명</b>이 새로 들어왔어요.';
   $('stamp').textContent=kt(D.now)+' 기준 · 들어올 때 한 번 불러와요';
   $('todayHint').textContent=md(D.today)+'('+wk(D.today)+') 0시부터 지금까지 · 비교는 어제 같은 하루 전체';
@@ -348,7 +431,7 @@ function render(){
 
 function labelTables(){document.querySelectorAll('table.rt').forEach(t=>{const hs=[...(t.rows[0]?t.rows[0].cells:[])].map(c=>c.textContent.trim());[...t.rows].slice(1).forEach(r=>[...r.cells].forEach((c,i)=>{if(c.colSpan>1)return;if(hs[i])c.setAttribute('data-l',hs[i]);else c.classList.add('act');}));});}
 $('pmore').onclick=()=>{document.querySelectorAll('#players tr.more').forEach(r=>r.classList.remove('more'));$('pmore').hidden=true;};
-document.querySelectorAll('#bnav button').forEach(b=>b.onclick=()=>{const t=b.dataset.t;if(t==='reload'){load();return;}const el=$(t);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
+document.querySelectorAll('#bnav [data-t="reload"]').forEach(b=>b.onclick=()=>{load();if(VIEW==='err')loadErr();});
 function chart(title,big,vals,type,color,fmt){
   const W=560,H=170,pl=6,pr=6,pt=12,pb=22,n=vals.length,mx=Math.max(1,...vals)*1.12,iw=W-pl-pr,ih=H-pt-pb,step=iw/n;
   const X=i=>pl+step*i+step/2,Y=v=>pt+ih-(v/mx)*ih;let g='';
@@ -363,6 +446,7 @@ function chart(title,big,vals,type,color,fmt){
 }
 function bindTips(){const tip=$('tip');document.querySelectorAll('.hit').forEach(h=>{const show=e=>{const p=e.touches?e.touches[0]:e;tip.textContent=h.dataset.t;tip.style.display='block';tip.style.left=Math.min(innerWidth-tip.offsetWidth-8,p.clientX+12)+'px';tip.style.top=(p.clientY-36)+'px';};h.addEventListener('mousemove',show);h.addEventListener('touchstart',show,{passive:true});h.addEventListener('mouseleave',()=>tip.style.display='none');});document.addEventListener('touchend',()=>setTimeout(()=>tip.style.display='none',1200),{passive:true});}
 
+go(location.hash.slice(1)||'dash',false);
 if(TOK){showApp();load();}else showLogin();
 </script>
 </body>
