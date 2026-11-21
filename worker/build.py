@@ -16,7 +16,7 @@ from scipy import ndimage
 SAT = 1.0  # the main cast uses 1.12; outfits are kept softer so new clothes stay pastel
 BABY_IDLE_H = 100
 ADULT_MUL = 1.75
-CLIPS = {'idle': (12, 8), 'walk': (8, 7), 'sleep': (12, 7), 'work': (12, 9), 'fish': (12, 6)}  # poses per sheet, fps
+CLIPS = {'idle': (12, 5), 'walk': (8, 7), 'sleep': (12, 4), 'work': (12, 6), 'fish': (12, 4)}  # poses per sheet, fps
 SC = {'idle': 1, 'walk': .88, 'sleep': 1.0, 'work': 1.25, 'fish': 1.33}  # adult head-width ratios from the main pipeline
 KEYS = {'idle': (30, 31), 'walk': (32, 33), 'sleep': (34, 35), 'work': (36, 37), 'fish': (38, 39)}
 INTER = {'sit': (51, 6), 'lie': (52, 4), 'jump': (53, 9)}
@@ -150,7 +150,8 @@ def build(raw, out):
         kk = np.median([a.height for a in A]) / np.median([b.height for b in B])
         B = [b.resize((max(1, int(b.width * kk)), max(1, int(b.height * kk))), Image.LANCZOS) for b in B]
         # walk: the A and B sheets are redrawn separately, so interleaving them flickers (cape/arms jump every step); use A alone
-        P[c] = list(A) if c == 'walk' else [p for ab in zip(A, B) for p in ab]
+        # the A and B sheets are redrawn separately, so interleaving them flickers (clothes, props and the berry bush jump every frame); use A alone
+        P[c] = list(A)
     if 'idle' not in P: raise SystemExit('idle sheets failed')
     idle0 = P['idle'][0]; H0 = idle0.height
     # face/size check: every clip's median head width (after its scale) should match idle within 15%
@@ -213,7 +214,7 @@ def build(raw, out):
     for n, im in sheets.items(): at.paste(im, tuple(rects[n][:2]))
     at.save(os.path.join(out, 'pack_a.webp'), 'WEBP', quality=82, method=4)
     m['rect'] = rects
-    json.dump({'walkA': 1, 'g': {'adult': m}}, open(os.path.join(out, 'pack.json'), 'w'), separators=(',', ':'))
+    json.dump({'walkA': 1, 'abA': 1, 'g': {'adult': m}}, open(os.path.join(out, 'pack.json'), 'w'), separators=(',', ':'))
     qa['redo'] = sorted(set(qa['redo']))
     qa['size'] = list(size); qa['bytes'] = os.path.getsize(os.path.join(out, 'pack_a.webp'))
     json.dump(qa, open(os.path.join(out, 'qa.json'), 'w'))
