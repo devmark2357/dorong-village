@@ -394,7 +394,7 @@ function render(){
   const avg=k=>w.length?w.reduce((s,x)=>s+(x[k]||0),0)/w.length:0;
   $('whoami').textContent=D.who+' 님';if($('sWho'))$('sWho').textContent=D.who+' 님으로 들어와 있어요';
   const hr=+new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul',hour:'numeric',hour12:false});
-  $('hello').textContent=(hr<11?'좋은 아침이에요':hr<17?'좋은 오후예요':hr<21?'좋은 저녁이에요':'포근한 밤이에요')+', '+D.who+' 님';
+  $('hello').textContent=(hr<5?'포근한 밤이에요':hr<11?'좋은 아침이에요':hr<17?'좋은 오후예요':hr<21?'좋은 저녁이에요':'포근한 밤이에요')+', '+D.who+' 님';
   setTimeout(()=>{const h=document.querySelector('.htxt');let q=$('hq');if(!q){q=document.createElement('button');q.id='hq';q.className='hq';q.onclick=()=>go('inq');h.appendChild(q);}q.hidden=!D.inq_open;q.textContent='💌 답변 기다리는 문의 '+(D.inq_open||0)+'건';},0);
   $('hsub').innerHTML='출시('+md(D.launch||D.today)+') 이후 주민 <b>'+num(D.total.users)+'명</b>이 마을에 왔고, 오늘은 <b>'+num(t.new)+'명</b>이 새로 들어왔어요.';
   $('stamp').textContent=kt(D.now)+' 기준 · 들어올 때 한 번 불러와요';
