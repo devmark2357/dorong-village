@@ -106,6 +106,9 @@
     fetch(OTA_INDEX + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
       .then(function (idx) { otaPick([].concat((idx && (idx[PLAT] || idx.all)) || [], (cfg && cfg.ota && cfg.ota[PLAT]) || []), block); });
   }
+  // a brand-new player (no save yet, or still before the first egg tap) gets the newest game right away instead of on the next launch,
+  // so the first session never runs the old build that shipped inside the store package
+  function freshInstall() { try { var v = localStorage.getItem('dorong_save_v1'); if (!v) return true; var g = JSON.parse(v); return !g || !(g.tut > 0); } catch (_) { return false; } }
   function otaPick(list, block) {
     var fit = list.filter(function (e) {
       return e && e.ota > DVN.ota && /^https:\/\//.test(e.url || '') && /^[0-9a-f]{64}$/.test(e.sha256 || '') && bad().indexOf(e.ota) < 0 && block.indexOf(e.ota) < 0 &&
@@ -124,7 +127,7 @@
         });
         return call('CapacitorUpdater', 'download', { url: fit.url, version: name, manifest: files });
       })
-      .then(function (b) { ls(NEXT, String(fit.ota)); return call('CapacitorUpdater', 'next', { id: b.id }); })
+      .then(function (b) { ls(NEXT, String(fit.ota)); if (freshInstall()) { return call('CapacitorUpdater', 'set', { id: b.id }); } return call('CapacitorUpdater', 'next', { id: b.id }); })
       .catch(function (e) { report('ota ' + (e && e.message || e)); });
   }
 
