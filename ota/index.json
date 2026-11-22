@@ -1,6 +1,14 @@
 {
  "all": [
   {
+   "ota": 22,
+   "url": "https://dorong.laboon.online/ota/m/22.json",
+   "sha256": "203c46fdeaed9d7a91cc3e744090e46a4f5395409cd445377e0a8728a7fe7efb",
+   "min_native": "1.0.1",
+   "max_native": "1.0.1",
+   "at": "2026-11-22T01:41:09.955Z"
+  },
+  {
    "ota": 21,
    "url": "https://dorong.laboon.online/ota/m/21.json",
    "sha256": "b7d02306e06fc97472b1bb2bd252f0eeaa6c2e8e9c84fa71750985fc550523f8",
@@ -71,14 +79,6 @@
    "min_native": "1.0.1",
    "max_native": "1.0.1",
    "at": "2026-11-20T23:19:30.541Z"
-  },
-  {
-   "ota": 12,
-   "url": "https://dorong.laboon.online/ota/m/12.json",
-   "sha256": "5992cfe9e7967c21b957608effe567eb8ce6450d276b8dc183dd56669a41020a",
-   "min_native": "1.0.1",
-   "max_native": "1.0.1",
-   "at": "2026-11-20T14:21:19.463Z"
   }
  ]
 }

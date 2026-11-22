@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795311137";</script></head><body>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795311669";</script></head><body>
 <meta charset="utf-8">
 <title>도롱도롱 느림마을</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1944,7 +1944,7 @@ var adBusy=false;
 // rewarded placements, each with its own daily count and gap (like Return to 1990)
 var ADP={free:{n:5,gap:600000},away:{n:3,gap:0},cook:{n:5,gap:120000},tea:{n:3,gap:300000}};
 function adPS(p){var A=adDay();A.p=A.p||{};var c=A.p[p]||{n:0,t:0};return {left:Math.max(0,ADP[p].n-c.n),wait:Math.max(0,c.t+ADP[p].gap-Date.now())};}
-function adLog(kind,place){try{if(window.SOC&&SOC.mode==='live'&&tok())rpcLive('dv_ad_log',{p_token:tok(),p_kind:kind,p_place:place}).catch(function(){});}catch(_){}}
+function adLog(kind,place){try{if(SOC&&SOC.mode==='live'&&tok())rpcLive('dv_ad_log',{p_token:tok(),p_kind:kind,p_place:place}).catch(function(){});}catch(_){}}
 function adRw(p,give){var A=adDay(),st=adPS(p);if(adBusy)return;if(st.left<=0){toast(__T('오늘은 다 봤어요 · 내일 또 만나요'));return;}if(st.wait>0){toast(Math.ceil(st.wait/60000)+__T('분 뒤에 다시 볼 수 있어요'));return;}
   function ok(){var c=A.p[p]||{n:0,t:0};c.n++;c.t=Date.now();A.p[p]=c;save();give();}
   if(subOn()){ok();return;}
