@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795351376";</script></head><body>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><meta name="theme-color" content="#f6d6dc"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="느림마을"><style>html,body{margin:0}body{font:14px system-ui,sans-serif}[hidden]{display:none!important}</style><script>window.DV_BUILD="1795652744";</script></head><body>
 <meta charset="utf-8">
 <title>도롱도롱 느림마을</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1181,7 +1181,7 @@ function season(){if(G.seaT!=null&&G.seaT>=0)return G.seaT;return seaBlock()%4;}
 function berryRate(){return season()!==3?1:[0,.25,.45,.7][G.gh||0];}
 // real local time of day: 0 = day, 1 = night, eased through dawn (5–7) and dusk (17–19)
 // seasonal pictures: spring is the original art; the others load when first needed. A new season fades in over 3 s.
-var SEA_V='5',SEAI={},seaFrom=-1,seaA=1;
+var SEA_V='6',SEAI={},seaFrom=-1,seaA=1;
 function seaImg(base,s){if(s===0)return base==='tree'?TREE:YHI;var key=base+SEA_K[s];if(!SEAI[key]){var im=new Image();im.src='assets/season/'+base+'_'+SEA_K[s]+'.webp?v='+SEA_V;SEAI[key]=im;}var im2=SEAI[key];return im2.complete&&im2.naturalWidth?im2:null;}
 var SEA_MSG=[__T('봄이 왔어요! 벚꽃이 흩날려요'),__T('여름이 왔어요! 연못에 물고기가 많아졌어요'),__T('가을이 왔어요! 곧 겨울이 와서 딸기밭이 쉬어요. 딸기를 모아 두세요'),__T('겨울이 왔어요! 딸기밭이 눈에 덮였어요. 모아 둔 딸기로 지내요')];
 function seaTick(q){var s=season();if(s!==seaLast){if(seaLast>=0){seaFrom=seaLast;seaA=0;if(!q&&!GUEST)toast(SEA_MSG[s]);}seaLast=s;seaImg('tree',(s+1)%4);seaImg('yard',(s+1)%4);setInfo();}
@@ -1236,7 +1236,7 @@ function nextJob(){if(hungry){if(sal.node==='door')startCry();else goTo('door');
 // ---------- view ----------
 // the village is one big tree. the old yard picture sits at the bottom centre (OX,OY) at its own scale,
 // so every yard coordinate in this file stays as it was; the camera works in tree (world) coordinates.
-var WW=1634,WH=2921,OX=441,OY=1577,TREE=new Image();TREE.src='assets/tree.webp?v=2';
+var WW=1634,WH=2921,OX=441,OY=1577,TREE=new Image();TREE.src='assets/tree.webp?v=3';
 var dpr=1,W=0,H=0,view={x:OX,y:OY,w:752},tv=null,follow=false,zl=0;
 var VSTAGE=[[1,.46],[3,.68],[5,.76],[10,.82],[15,.88],[22,.94],[30,1],[35,1],[50,1]];
 function popN(){return (typeof G!=='undefined'&&G)?(G.preview||G.n||1):1;}
@@ -1250,7 +1250,7 @@ function clampView(v){var f=full(),fh=f.w*H/W;v.w=Math.max(220,Math.min(f.w,v.w)
   var zb=zoneBox(),x0=Math.max(0,Math.min(f.x,zb[0])),x1=Math.min(WW,Math.max(f.x+f.w,zb[1])),y0=fullK()>=1?-Math.round(150*v.w/Math.max(1,W)):Math.max(0,Math.min(f.y,zb[2])),y1=f.y+fh,t=follow?(foc||sal):null,ft=!!(t&&t.x!=null);
   if(ft){var tx=t.x+OX,ty=t.y+OY-(foc?80:60);x0=Math.max(0,Math.min(x0,tx-v.w/2));x1=Math.min(WW,Math.max(x1,tx+v.w/2));y0=Math.max(0,Math.min(y0,ty-h*.55));y1=Math.min(WH,Math.max(y1,ty+h*.45));}
   v.x=Math.max(x0,Math.min(x1-v.w,v.x));v.y=Math.max(y0,Math.min(y1-h,v.y));
-  if(!ft&&v.w<=IW-60&&v.y+h*.5>OY+80)v.x=Math.max(OX+30,Math.min(OX+IW-30-v.w,v.x));
+  if(!ft&&v.w<=IW-60&&v.y+h*.5>OY+80){var zz=(typeof G!=='undefined'&&G&&!GUEST&&G.zones)||{},lo=zz[3]?0:OX+30,hi=zz[4]?WW:OX+IW-30;v.x=Math.max(lo,Math.min(hi-v.w,v.x));}
   return v;}
 function resize(){dpr=Math.min(window.devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);document.documentElement.style.setProperty('--gx','0px');if(!tv&&!follow&&zl===0){var f=full();view={x:f.x,y:f.y,w:f.w};}clampView(view);}
 function scale(){return W/view.w;}
@@ -1643,8 +1643,10 @@ function cloud(x,y,w,a){ctx.fillStyle='rgba(255,255,255,'+a+')';var h=w*0.32;ctx
 // the moving yard video is softer than the still tree, so its edges melt into the tree and it fades out as the camera steps back
 var YHI=new Image();YHI.src='assets/yard_hi.webp?v=2';
 // the sharp, upscaled yard (feathered edges baked in); draw only the part on screen
-function drawYHI(){var s=season();if(seaA<1&&seaFrom>=0){var Yf=seaImg('yard',seaFrom);if(Yf)drawYHI0(Yf,1);var Yc=seaImg('yard',s);if(Yc)drawYHI0(Yc,seaA);return;}var Y=seaImg('yard',s);if(Y)drawYHI0(Y,1);}
-function drawYHI0(YHI,a){if(!YHI.complete||!YHI.naturalWidth)return;ctx.globalAlpha=a;drawYHI1(YHI);ctx.globalAlpha=1;}
+function drawYHI(){var s=season();if(seaA<1&&seaFrom>=0){var Yf=seaImg('yard',seaFrom);if(Yf)drawYHI0(Yf,1,seaImg('tree',seaFrom));var Yc=seaImg('yard',s);if(Yc)drawYHI0(Yc,seaA,seaImg('tree',s));return;}var Y=seaImg('yard',s);if(Y)drawYHI0(Y,1,seaImg('tree',s));}
+function drawYHI0(YHI,a,Tr){if(!YHI.complete||!YHI.naturalWidth)return;ctx.globalAlpha=a;drawYHI1(YHI);yEdge(Tr,a);ctx.globalAlpha=1;}
+// the yard's left edge melts into the tree (the tree pictures carry a repainted strip there)
+function yEdge(Tr,a){if(!Tr||!Tr.complete||!Tr.naturalWidth)return;if(view.x-OX>116)return;var k=Tr.naturalWidth/WW,N=12,w=116/N;for(var i=0;i<N;i++){var t=(i+.5)/N,f=t*t*(3-2*t);ctx.globalAlpha=a*(1-f);ctx.drawImage(Tr,(OX+i*w)*k,OY*k,w*k+1,IH*k,i*w,0,w+.6,IH);}ctx.globalAlpha=a;}
 function drawYHI1(YHI){var k=YHI.naturalWidth/IW,x0=Math.max(0,view.x-OX),y0=Math.max(0,view.y-OY),x1=Math.min(IW,view.x-OX+view.w),y1=Math.min(IH,view.y-OY+view.w*H/W);if(x1<=x0||y1<=y0)return;ctx.drawImage(YHI,x0*k,y0*k,(x1-x0)*k,(y1-y0)*k,x0,y0,x1-x0,y1-y0);}
 var VC=document.createElement('canvas'),VX=VC.getContext('2d');VC.width=376;VC.height=672;
 function drawVid(){var a=Math.max(0,Math.min(1,(1100-view.w)/300))*Math.max(0,Math.min(1,(view.w-560)/260));if(!(YHI.complete&&YHI.naturalWidth))a=Math.max(0,Math.min(1,(1100-view.w)/300));if(a<=0)return;VX.globalCompositeOperation='source-over';VX.clearRect(0,0,376,672);VX.drawImage(vid,-1.825,2.965,360*1.0613,640*1.0613);
